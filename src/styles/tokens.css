@@ -1,0 +1,110 @@
+/* Mochi UI Design Tokens - CSS Custom Properties */
+/* Generated from W3C Design Tokens Format */
+
+:root {
+  /* === COLORS === */
+  /* Rainbow */
+  --mochi-mint: #A3E635;
+  --mochi-baby-blue: #7DD3FC;
+  --mochi-lavender: #C084FC;
+  --mochi-peach: #FB923C;
+
+  /* Pink & Red */
+  --mochi-blush-pink: #FDA4AF;
+  --mochi-soft-rose: #FB7185;
+
+  /* Blue */
+  --mochi-powder-blue: #BAE6FD;
+  --mochi-sky-blue: #38BDF8;
+
+  /* Green */
+  --mochi-sage: #86EFAC;
+  --mochi-mint-green: #4ADE80;
+
+  /* Neutrals */
+  --mochi-ivory: #FEF3C7;
+  --mochi-soft-taupe: #D6D3D1;
+  --mochi-warm-beige: #F5E6D3;
+
+  /* Dark Mode - NEVER pure black */
+  --mochi-dark-elevated: #1E1E2E;
+  --mochi-dark-surface: #2D2D44;
+  --mochi-dark-card: #252538;
+
+  /* === SHADOW MATRIX (4-Layer System) === */
+  /* Layer 2: Lift - Floating depth */
+  --shadow-lift-sm: 0 4px 8px rgba(0,0,0,0.1);
+  --shadow-lift-md: 0 8px 16px rgba(0,0,0,0.1);
+  --shadow-lift-lg: 0 20px 40px rgba(0,0,0,0.1);
+
+  /* Layer 3: Volume - 3D inflation */
+  --shadow-volume: inset -10px -10px 20px rgba(0,0,0,0.05);
+
+  /* Layer 4: Reflection - Light source */
+  --shadow-reflection: inset 10px 10px 20px rgba(255,255,255,0.8);
+
+  /* Combined Clay Shadow */
+  --shadow-clay: 
+    var(--shadow-lift-md),
+    var(--shadow-volume),
+    var(--shadow-reflection);
+
+  /* Pressed/Active State */
+  --shadow-pressed:
+    inset 0 4px 8px rgba(0,0,0,0.1),
+    var(--shadow-volume);
+
+  /* === GEOMETRY === */
+  --radius-clay: 50%;
+  --radius-bento: 24px;
+  --radius-pill: 9999px;
+  --radius-button: 20px;
+  --radius-card: 28px;
+  --radius-input: 16px;
+
+  /* === SPACING === */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+
+  /* === MOTION === */
+  --spring-bounce: 0.4;
+  --spring-duration: 300ms;
+  --ease-clay: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* === TYPOGRAPHY === */
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading-size: 32px;
+  --font-heading-weight: 700;
+  --font-heading-line: 1.2;
+  --font-body-size: 16px;
+  --font-body-weight: 400;
+  --font-body-line: 1.5;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --bg-base: var(--mochi-dark-elevated);
+  --bg-surface: var(--mochi-dark-surface);
+  --bg-card: var(--mochi-dark-card);
+  --text-primary: #E8E8F0;
+  --text-secondary: #A0A0B8;
+
+  /* Adjusted shadows for dark */
+  --shadow-lift-md: 0 8px 16px rgba(0,0,0,0.3);
+  --shadow-volume: inset -10px -10px 20px rgba(0,0,0,0.2);
+  --shadow-reflection: inset 10px 10px 20px rgba(255,255,255,0.05);
+}
+
+[data-theme="light"] {
+  --bg-base: var(--mochi-warm-beige);
+  --bg-surface: #FFF8F0;
+  --bg-card: #FFFFFF;
+  --text-primary: #2D2D44;
+  --text-secondary: #6B6B8B;
+}

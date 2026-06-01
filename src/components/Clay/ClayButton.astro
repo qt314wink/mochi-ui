@@ -1,0 +1,103 @@
+---
+export interface Props {
+  colorway?: 'mint' | 'blue' | 'pink' | 'lavender' | 'peach' | 'neutral';
+  size?: 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  href?: string;
+  type?: 'button' | 'submit';
+  class?: string;
+}
+
+const { 
+  colorway = 'mint', 
+  size = 'md', 
+  disabled = false,
+  href,
+  type = 'button',
+  class: className = ''
+} = Astro.props;
+
+const colorMap = {
+  mint: { bg: 'hsl(142deg 76% 75%)', color: 'hsl(142deg 60% 25%)' },
+  blue: { bg: 'hsl(200deg 90% 85%)', color: 'hsl(200deg 60% 30%)' },
+  pink: { bg: 'hsl(350deg 90% 85%)', color: 'hsl(350deg 60% 35%)' },
+  lavender: { bg: 'hsl(270deg 70% 85%)', color: 'hsl(270deg 50% 35%)' },
+  peach: { bg: 'hsl(25deg 95% 75%)', color: 'hsl(25deg 70% 30%)' },
+  neutral: { bg: 'hsl(30deg 20% 90%)', color: 'hsl(30deg 20% 30%)' },
+};
+
+const sizeMap = {
+  sm: { padding: '8px 16px', fontSize: '14px' },
+  md: { padding: '16px 32px', fontSize: '16px' },
+  lg: { padding: '24px 48px', fontSize: '18px' },
+};
+
+const colors = colorMap[colorway];
+const dims = sizeMap[size];
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  class={`clay-button clay-button--${colorway} clay-button--${size} ${className}`}
+  style={{
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px',
+    padding: dims.padding,
+    borderRadius: '9999px',
+    border: 'none',
+    background: colors.bg,
+    color: colors.color,
+    fontFamily: 'var(--font-family)',
+    fontSize: dims.fontSize,
+    fontWeight: 600,
+    letterSpacing: '-0.01em',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.5 : 1,
+    boxShadow: '8px 8px 16px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(0,0,0,0.05), inset 4px 4px 8px rgba(255,255,255,0.8)',
+    textDecoration: 'none',
+    transition: 'transform 0.1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
+    transform: 'translateZ(0)',
+    willChange: 'transform',
+  }}
+  href={href}
+  type={!href ? type : undefined}
+  disabled={disabled}
+  data-clay-button
+>
+  <slot />
+</Tag>
+
+<script>
+  // Client-side physics enhancement
+  document.querySelectorAll('[data-clay-button]').forEach(btn => {
+    btn.addEventListener('mousedown', () => {
+      (btn as HTMLElement).style.transform = 'translateY(2px) scale(0.95)';
+      (btn as HTMLElement).style.boxShadow = 'inset 0 4px 8px rgba(0,0,0,0.15), inset -2px -2px 4px rgba(0,0,0,0.05), inset 2px 2px 4px rgba(255,255,255,0.5)';
+    });
+
+    btn.addEventListener('mouseup', () => {
+      (btn as HTMLElement).style.transform = 'translateY(-6px) scale(1.02)';
+      (btn as HTMLElement).style.boxShadow = '12px 12px 24px rgba(0,0,0,0.12), inset -4px -4px 8px rgba(0,0,0,0.05), inset 4px 4px 8px rgba(255,255,255,0.9)';
+
+      setTimeout(() => {
+        (btn as HTMLElement).style.transform = 'translateY(0) scale(1)';
+        (btn as HTMLElement).style.boxShadow = '8px 8px 16px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(0,0,0,0.05), inset 4px 4px 8px rgba(255,255,255,0.8)';
+      }, 150);
+    });
+
+    btn.addEventListener('mouseleave', () => {
+      (btn as HTMLElement).style.transform = 'translateY(0) scale(1)';
+      (btn as HTMLElement).style.boxShadow = '8px 8px 16px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(0,0,0,0.05), inset 4px 4px 8px rgba(255,255,255,0.8)';
+    });
+
+    // Haptic feedback
+    btn.addEventListener('click', () => {
+      if ('vibrate' in navigator) {
+        navigator.vibrate(10);
+      }
+    });
+  });
+</script>

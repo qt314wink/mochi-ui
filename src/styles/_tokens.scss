@@ -1,0 +1,162 @@
+// Mochi UI Design Tokens
+// ======================
+
+// Color Palette
+:root {
+  // Rainbow
+  --mochi-mint-green: #A3E635;
+  --mochi-baby-blue: #7DD3FC;
+  --mochi-lavender: #C084FC;
+  --mochi-peach: #FB923C;
+
+  // Pink & Red
+  --mochi-blush-pink: #FDA4AF;
+  --mochi-soft-rose: #FB7185;
+
+  // Blue
+  --mochi-powder-blue: #BAE6FD;
+  --mochi-sky-blue: #38BDF8;
+
+  // Green
+  --mochi-sage-green: #86EFAC;
+  --mochi-mint-green-alt: #4ADE80;
+
+  // Neutrals
+  --mochi-ivory: #FEF3C7;
+  --mochi-soft-taupe: #D6D3D1;
+  --mochi-warm-white: #FDF6E3;
+  --mochi-clay-white: #F5F0E8;
+
+  // Dark Mode (Elevated - never pure black)
+  --mochi-elevated-black: #1A1A2E;
+  --mochi-deep-navy: #16213E;
+  --mochi-soft-charcoal: #2D2D3A;
+
+  // Semantic
+  --color-bg: var(--mochi-clay-white);
+  --color-surface: var(--mochi-warm-white);
+  --color-primary: var(--mochi-mint-green);
+  --color-accent: var(--mochi-sky-blue);
+  --color-text: #2C3E50;
+  --color-text-secondary: #5D6D7E;
+
+  // Shadow Matrix
+  --shadow-lift-sm: 4px 4px 8px rgba(0,0,0,0.1);
+  --shadow-lift-md: 8px 8px 16px rgba(0,0,0,0.1);
+  --shadow-lift-lg: 20px 20px 40px rgba(0,0,0,0.1);
+  --shadow-volume: inset -10px -10px 20px rgba(0,0,0,0.05);
+  --shadow-reflection: inset 10px 10px 20px rgba(255,255,255,0.8);
+  --shadow-pressed: inset 0 4px 8px rgba(0,0,0,0.15);
+
+  // Dimensions
+  --radius-clay: 50%;
+  --radius-bento: 24px;
+  --radius-soft: 16px;
+  --radius-pill: 9999px;
+
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+
+  // Animation
+  --duration-snappy: 120ms;
+  --duration-quick: 200ms;
+  --duration-smooth: 300ms;
+  --duration-spring: 400ms;
+  --duration-luxurious: 800ms;
+
+  // Spring Physics
+  --spring-bounce: 40;
+  --spring-tension: 300;
+  --spring-friction: 20;
+
+  // Typography
+  --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+// Dark mode
+[data-theme="dark"] {
+  --color-bg: var(--mochi-elevated-black);
+  --color-surface: var(--mochi-soft-charcoal);
+  --color-text: #E8E8E8;
+  --color-text-secondary: #A0A0B0;
+  --shadow-lift-sm: 4px 4px 8px rgba(0,0,0,0.3);
+  --shadow-lift-md: 8px 8px 16px rgba(0,0,0,0.3);
+  --shadow-lift-lg: 20px 20px 40px rgba(0,0,0,0.3);
+  --shadow-volume: inset -10px -10px 20px rgba(0,0,0,0.2);
+  --shadow-reflection: inset 10px 10px 20px rgba(255,255,255,0.05);
+}
+
+// Mixins
+@mixin clay-surface($elevation: 'float') {
+  border-radius: var(--radius-bento);
+  background: var(--color-surface);
+  transition: transform var(--duration-spring) cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow var(--duration-smooth) ease;
+
+  @if $elevation == 'float' {
+    box-shadow: var(--shadow-lift-md), var(--shadow-volume), var(--shadow-reflection);
+  }
+  @if $elevation == 'float-lg' {
+    box-shadow: var(--shadow-lift-lg), var(--shadow-volume), var(--shadow-reflection);
+  }
+  @if $elevation == 'pressed' {
+    box-shadow: var(--shadow-volume), var(--shadow-pressed);
+    transform: scale(0.98);
+  }
+  @if $elevation == 'flat' {
+    box-shadow: var(--shadow-volume), var(--shadow-reflection);
+  }
+}
+
+@mixin clay-button($color: var(--color-primary)) {
+  position: relative;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 1.5rem 3rem;
+  background: $color;
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-weight: 600;
+  cursor: pointer;
+
+  // Triple Shadow System
+  box-shadow: 
+    8px 8px 16px rgba(0,0,0,0.1),
+    inset -4px -4px 8px rgba(0,0,0,0.05),
+    inset 4px 4px 8px rgba(255,255,255,0.8);
+
+  transition: 
+    transform var(--duration-spring) cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow var(--duration-quick) ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+      12px 12px 24px rgba(0,0,0,0.12),
+      inset -4px -4px 8px rgba(0,0,0,0.05),
+      inset 4px 4px 8px rgba(255,255,255,0.9);
+  }
+
+  &:active {
+    transform: scale(0.95) translateY(0);
+    box-shadow: 
+      2px 2px 4px rgba(0,0,0,0.1),
+      inset -6px -6px 12px rgba(0,0,0,0.08),
+      inset 6px 6px 12px rgba(255,255,255,0.6);
+  }
+}
+
+@mixin spring-animation {
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@mixin reduce-motion {
+  @media (prefers-reduced-motion: reduce) {
+    transition: none !important;
+    animation: none !important;
+  }
+}

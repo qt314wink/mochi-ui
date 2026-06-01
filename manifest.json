@@ -1,0 +1,71 @@
+{
+  "name": "Mochi UI",
+  "version": "1.0.0",
+  "description": "A claymorphism design system with spring physics, tactile feedback, and Figma compatibility",
+  "author": "Mochi UI Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mochi-ui/mochi-ui"
+  },
+  "keywords": [
+    "claymorphism",
+    "design-system",
+    "ui-components",
+    "spring-physics",
+    "haptic-feedback",
+    "figma",
+    "astro",
+    "react",
+    "motion"
+  ],
+  "components": {
+    "primitives": [
+      "ClayButton",
+      "ClayCard",
+      "ClayToggle",
+      "ClaySlider",
+      "ClayInput",
+      "ClayChartBar",
+      "ClayBadge",
+      "ClayAvatar",
+      "ClayTooltip",
+      "ClayModal",
+      "ClaySkeleton",
+      "ClayProgress",
+      "ClaySegmentedControl"
+    ],
+    "animations": [
+      "SpringPhysics",
+      "ClayRebound",
+      "FloatingContainer",
+      "FloatingGroup",
+      "ParallaxLayer"
+    ],
+    "layout": [
+      "BentoGrid",
+      "BentoItem"
+    ]
+  },
+  "tokens": {
+    "format": "W3C Design Tokens Community Group",
+    "version": "1.0",
+    "categories": [
+      "color",
+      "shadow",
+      "radius",
+      "spacing",
+      "motion",
+      "typography"
+    ]
+  },
+  "figma": {
+    "compatible": true,
+    "exportFormats": [
+      "tokens-studio.json",
+      "figma-variables.json",
+      "variables.css",
+      "component-specs.json"
+    ]
+  }
+}
