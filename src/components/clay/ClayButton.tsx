@@ -18,12 +18,12 @@ export interface ClayButtonProps {
 
 // Colorway configurations
 const colorways = {
-  mint: { bg: 'hsl(142deg 76% 75%)', color: 'hsl(142deg 60% 25%)' },
-  blue: { bg: 'hsl(200deg 90% 85%)', color: 'hsl(200deg 60% 30%)' },
-  pink: { bg: 'hsl(350deg 90% 85%)', color: 'hsl(350deg 60% 35%)' },
-  lavender: { bg: 'hsl(270deg 70% 85%)', color: 'hsl(270deg 50% 35%)' },
-  peach: { bg: 'hsl(25deg 95% 75%)', color: 'hsl(25deg 70% 30%)' },
-  neutral: { bg: 'hsl(30deg 20% 90%)', color: 'hsl(30deg 20% 30%)' },
+  mint: { bg: 'hsl(142deg 76% 78%)', color: 'hsl(142deg 70% 18%)' },
+  blue: { bg: 'hsl(200deg 90% 88%)', color: 'hsl(200deg 70% 22%)' },
+  pink: { bg: 'hsl(350deg 90% 88%)', color: 'hsl(350deg 70% 24%)' },
+  lavender: { bg: 'hsl(270deg 70% 88%)', color: 'hsl(270deg 60% 24%)' },
+  peach: { bg: 'hsl(25deg 95% 78%)', color: 'hsl(25deg 75% 22%)' },
+  neutral: { bg: 'hsl(30deg 15% 90%)', color: 'hsl(30deg 15% 28%)' },
 };
 
 // Size configurations

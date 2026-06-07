@@ -1,13 +1,19 @@
 import React, { useRef, useEffect } from 'react';
 
+interface AtmosphereCanvasProps {
+  reducedMotion?: boolean;
+}
+
 // Dynamic gradient mesh background using 2D canvas
 // Slow-moving pastel color fields that respond to cursor position
-export const AtmosphereCanvas: React.FC = () => {
+export const AtmosphereCanvas: React.FC<AtmosphereCanvasProps> = ({ reducedMotion }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const animRef = useRef<number>(0);
 
   useEffect(() => {
+    if (reducedMotion) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -83,7 +89,24 @@ export const AtmosphereCanvas: React.FC = () => {
       window.removeEventListener('mousemove', handleMouse);
       cancelAnimationFrame(animRef.current);
     };
-  }, []);
+  }, [reducedMotion]);
+
+  if (reducedMotion) {
+    return (
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          opacity: 0.5,
+          background: 'linear-gradient(135deg, rgb(220, 235, 250) 0%, rgb(240, 230, 245) 50%, rgb(230, 245, 235) 100%)',
+        }}
+      />
+    );
+  }
 
   return (
     <canvas

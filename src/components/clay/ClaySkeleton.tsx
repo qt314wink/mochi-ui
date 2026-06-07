@@ -7,6 +7,7 @@ export interface ClaySkeletonProps {
   height?: string | number;
   count?: number;
   animation?: 'pulse' | 'wave' | 'none';
+  style?: React.CSSProperties;
 }
 
 export const ClaySkeleton: React.FC<ClaySkeletonProps> = ({
@@ -15,6 +16,7 @@ export const ClaySkeleton: React.FC<ClaySkeletonProps> = ({
   height,
   count = 1,
   animation = 'pulse',
+  style,
 }) => {
   const getDimensions = () => {
     switch (variant) {
@@ -31,11 +33,11 @@ export const ClaySkeleton: React.FC<ClaySkeletonProps> = ({
   const animations = {
     pulse: {
       opacity: [0.4, 0.8, 0.4],
-      transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' },
+      transition: { duration: 1.5, repeat: Infinity, ease: 'easeInOut' as const },
     },
     wave: {
       backgroundPosition: ['-200% 0', '200% 0'],
-      transition: { duration: 1.5, repeat: Infinity, ease: 'linear' },
+      transition: { duration: 1.5, repeat: Infinity, ease: 'linear' as const },
     },
     none: {},
   };
@@ -56,6 +58,7 @@ export const ClaySkeleton: React.FC<ClaySkeletonProps> = ({
             backgroundSize: animation === 'wave' ? '200% 100%' : undefined,
             boxShadow: 'inset 2px 2px 4px rgba(0,0,0,0.05), inset -2px -2px 4px rgba(255,255,255,0.5)',
             marginBottom: i < count - 1 ? 12 : 0,
+            ...style,
           }}
         />
       ))}

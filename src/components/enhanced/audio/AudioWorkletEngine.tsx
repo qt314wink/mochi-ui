@@ -28,6 +28,7 @@ export const AudioWorkletProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const workletNodeRef = useRef<AudioWorkletNode | null>(null);
   const [isEnabled, setIsEnabled] = React.useState(false);
   const [isReady, setIsReady] = React.useState(false);
+  const readyRef = useRef(false);
 
   // Initialize AudioWorklet
   const initAudio = useCallback(async () => {
@@ -52,6 +53,7 @@ export const AudioWorkletProvider: React.FC<{ children: React.ReactNode }> = ({ 
       workletNodeRef.current = workletNode;
 
       setIsReady(true);
+      readyRef.current = true;
 
       // Resume context (needed for autoplay policy)
       if (ctx.state === 'suspended') {

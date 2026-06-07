@@ -11,6 +11,7 @@ export interface ClayCardProps {
   className?: string;
   header?: React.ReactNode;
   footer?: React.ReactNode;
+  style?: React.CSSProperties;
 }
 
 const colorwayBg = {
@@ -33,6 +34,7 @@ export const ClayCard: React.FC<ClayCardProps> = ({
   className = '',
   header,
   footer,
+  style,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -101,6 +103,7 @@ export const ClayCard: React.FC<ClayCardProps> = ({
         boxShadow,
         transformPerspective: 1000,
         cursor: interactive ? 'pointer' : 'default',
+        ...style,
       }}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}

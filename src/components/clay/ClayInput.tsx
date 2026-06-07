@@ -11,6 +11,7 @@ export interface ClayInputProps {
   error?: string;
   disabled?: boolean;
   autoFocus?: boolean;
+  style?: React.CSSProperties;
 }
 
 export const ClayInput: React.FC<ClayInputProps> = ({
@@ -23,6 +24,7 @@ export const ClayInput: React.FC<ClayInputProps> = ({
   error,
   disabled = false,
   autoFocus = false,
+  style,
 }) => {
   const [internalValue, setInternalValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -55,7 +57,7 @@ export const ClayInput: React.FC<ClayInputProps> = ({
   };
 
   return (
-    <div style={{ width: '100%' }}>
+    <div style={{ width: '100%', ...style }}>
       {label && (
         <label style={{ 
           display: 'block', 

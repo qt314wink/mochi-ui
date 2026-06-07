@@ -64,42 +64,24 @@ body {
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
-
-  /* Generous padding per document */
   padding: var(--space-md) var(--space-xl);
-
-  /* Pill shape with extreme rounding */
   border-radius: var(--radius-pill);
   border: none;
-
-  /* Color - using HSL for dynamic theming */
-  background: hsl(120deg 35% 82%);
-  color: hsl(120deg 50% 25%);
-
-  /* Typography */
   font-family: var(--font-family);
   font-size: var(--font-body-size);
   font-weight: 600;
   letter-spacing: -0.01em;
-
-  /* Triple Shadow System from document */
+  /* Clean modern shadow — no dark inset borders */
   box-shadow: 
-    8px 8px 16px rgba(0,0,0,0.1),
-    inset -4px -4px 8px rgba(0,0,0,0.05),
-    inset 4px 4px 8px rgba(255,255,255,0.8);
-
-  /* Interactive */
+    0 4px 14px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.5);
   cursor: pointer;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
-
-  /* Physics transitions */
   transition: 
-    transform 0.1s var(--ease-smooth),
-    box-shadow 0.3s var(--ease-clay),
+    transform 0.15s var(--ease-smooth),
+    box-shadow 0.25s ease,
     background 0.2s ease;
-
-  /* GPU acceleration */
   transform: translateZ(0);
   will-change: transform;
 }
@@ -111,30 +93,28 @@ body {
 
 /* State: Hover - Lifted */
 .clay-button[data-state="hover"] {
-  transform: translateY(-6px) scale(1.05);
+  transform: translateY(-3px);
   box-shadow: 
-    12px 12px 24px rgba(0,0,0,0.12),
-    inset -4px -4px 8px rgba(0,0,0,0.05),
-    inset 4px 4px 8px rgba(255,255,255,0.9);
+    0 8px 24px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.6);
 }
 
 /* State: Active - Compressed (Inset) */
 .clay-button[data-state="active"] {
-  transform: translateY(2px) scale(0.95);
+  transform: translateY(1px) scale(0.97);
   box-shadow: 
-    inset 0 4px 8px rgba(0,0,0,0.15),
-    inset -2px -2px 4px rgba(0,0,0,0.05),
-    inset 2px 2px 4px rgba(255,255,255,0.5);
-  background: hsl(120deg 35% 75%);
+    0 2px 6px rgba(0,0,0,0.06),
+    inset 0 2px 4px rgba(0,0,0,0.08);
+  filter: brightness(0.96);
 }
 
 /* Colorway variants */
-.clay-button--mint { background: hsl(142deg 76% 75%); color: hsl(142deg 60% 25%); }
-.clay-button--blue { background: hsl(200deg 90% 85%); color: hsl(200deg 60% 30%); }
-.clay-button--pink { background: hsl(350deg 90% 85%); color: hsl(350deg 60% 35%); }
-.clay-button--lavender { background: hsl(270deg 70% 85%); color: hsl(270deg 50% 35%); }
-.clay-button--peach { background: hsl(25deg 95% 75%); color: hsl(25deg 70% 30%); }
-.clay-button--neutral { background: hsl(30deg 20% 90%); color: hsl(30deg 20% 30%); }
+.clay-button--mint { background: hsl(142deg 76% 78%); color: hsl(142deg 70% 18%); }
+.clay-button--blue  { background: hsl(200deg 90% 88%); color: hsl(200deg 70% 22%); }
+.clay-button--pink  { background: hsl(350deg 90% 88%); color: hsl(350deg 70% 24%); }
+.clay-button--lavender { background: hsl(270deg 70% 88%); color: hsl(270deg 60% 24%); }
+.clay-button--peach { background: hsl(25deg 95% 78%); color: hsl(25deg 75% 22%); }
+.clay-button--neutral { background: hsl(30deg 15% 90%); color: hsl(30deg 15% 28%); }
 
 /* Size variants */
 .clay-button--sm { padding: var(--space-sm) var(--space-md); font-size: 14px; }

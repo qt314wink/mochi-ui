@@ -30,3 +30,4 @@ yarn-error.log*
 # Figma export (generated)
 figma-export/*.json
 figma-export/*.css
+.vercel
