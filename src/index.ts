@@ -48,7 +48,7 @@ export type { CommandItem, ClayCommandPaletteProps } from './components/clay/Cla
 export { ClayDataTable }            from './components/clay/ClayDataTable';
 export type { TableColumn, ClayDataTableProps } from './components/clay/ClayDataTable';
 
-// ── Motion ───────────────────────────────────────────────────────────────────
+// ── Motion Components ────────────────────────────────────────────────────────
 export { CursorOrb }                from './components/motion/CursorOrb';
 export { SectionReveal }            from './components/motion/SectionReveal';
 export { StaggerGrid }              from './components/motion/StaggerGrid';
@@ -59,7 +59,29 @@ export { MochiThemeProvider, useMochiTheme, createMochiTheme } from './component
 export type { MochiTheme, ColorMode, MochiTokenOverrides } from './components/theme/MochiThemeProvider';
 export { DarkModeToggle }           from './components/theme/DarkModeToggle';
 
+// ThemeProvider (v2 — lightweight, localStorage + system)
+export { ThemeProvider, useTheme }  from './providers/ThemeProvider';
+export type { ThemeProviderProps }  from './providers/ThemeProvider';
+
+// ── Spring Physics ───────────────────────────────────────────────────────────
+export { SPRING_PRESETS, DEFAULT_CONFIG } from './hooks/spring-physics';
+export type { SpringConfig, SpringState } from './hooks/spring-physics';
+
 // ── Hooks ────────────────────────────────────────────────────────────────────
+// Spring hooks (Framer Motion powered)
+export {
+  useSpring,
+  useSprings,
+  useSpringTransform,
+  useScrollSpring,
+  useMagnetic,
+  useSquish,
+  useStaggeredReveal,
+  useReducedMotion,
+} from './hooks/spring-hooks';
+export type { SpringHandle, TransformState, SpringTransformResult } from './hooks/spring-hooks';
+
+// Utility hooks
 export { useCountUp }               from './hooks/useCountUp';
-export { useReducedMotion }         from './hooks/useReducedMotion';
+export { useActiveSection }         from './hooks/useActiveSection';
 export { useToast as useClayToast } from './hooks/useToast';
