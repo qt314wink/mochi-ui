@@ -1,68 +1,63 @@
-name: Generate Tokenized Components
+name: Generate Mochi UI Tokens & Components
 
-# ── TRIGGERS ───────────────────────────────────────────────────────────────────
+# ── TRIGGERS ─────────────────────────────────────────────────────────────────
 on:
-  # ▶ "Run workflow" button in GitHub Actions tab — this is what you click
+  # ▶ Click "Run workflow" in the Actions tab to trigger manually
   workflow_dispatch:
     inputs:
-      force:
-        description: 'Force regeneration even if no token change'
+      branch:
+        description: 'Target branch'
         required: false
-        default: 'false'
-        type: choice
-        options:
-          - 'false'
-          - 'true'
+        default: 'main'
+      commit_message:
+        description: 'Custom commit message'
+        required: false
+        default: 'chore: auto-generate tokenized components'
 
-  # Auto-trigger on token or script changes pushed to main
+  # Auto-run when tokens or scripts change on main
   push:
     branches:
       - main
     paths:
+      - 'scripts/**'
       - 'src/styles/tokens.css'
-      - 'scripts/generate-tokens.js'
-      - 'scripts/generate-components.js'
 
-# ── PERMISSIONS ──────────────────────────────────────────────────────────────────
+# ── PERMISSIONS ───────────────────────────────────────────────────────────────
 permissions:
   contents: write
 
-# ── JOB ────────────────────────────────────────────────────────────────────────────
+# ── JOB ───────────────────────────────────────────────────────────────────────
 jobs:
   generate:
+    name: Generate tokens and components
     runs-on: ubuntu-latest
-    name: Regenerate token artifacts
 
     steps:
-      # 1. Full checkout with history (needed so git push has context)
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 2. Node 20 LTS
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # 3. Install deps (uses package-lock.json which is committed)
       - name: Install dependencies
         run: npm ci
 
-      # 4. Generate tokens.json / tokens.d.ts / tokens.scss / tokenMap.ts
-      - name: Generate design token artifacts
+      - name: Generate design tokens
         run: node scripts/generate-tokens.js
 
-      # 5. Regenerate all 16 clay components idempotently
-      - name: Generate clay components
+      - name: Generate tokenized clay components
         run: node scripts/generate-components.js
 
-      # 6. Commit & push if anything changed
-      #    git diff --quiet exits 0 if nothing changed — skips commit
-      - name: Commit generated artifacts
+      - name: TypeScript type-check
+        run: npx tsc --noEmit --skipLibCheck || echo "Type check warnings — not blocking commit"
+
+      - name: Commit and push generated files
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -70,10 +65,8 @@ jobs:
           if git diff --staged --quiet; then
             echo "Nothing changed — skipping commit."
           else
-            CHANGED=$(git diff --staged --name-only | tr '\n' ' ')
-            git commit -m "chore(codegen): regenerate token artifacts [skip ci]
-
-Changed: $CHANGED
-Triggered by: ${{ github.event_name }} / ${{ github.actor }}"
-            git push
+            BRANCH="${{ github.event.inputs.branch || github.ref_name }}"
+            MSG="${{ github.event.inputs.commit_message || 'chore: auto-generate tokenized components [skip ci]' }}"
+            git commit -m "$MSG"
+            git push origin "$BRANCH"
           fi
