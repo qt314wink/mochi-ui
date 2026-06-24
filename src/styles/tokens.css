@@ -1,191 +1,222 @@
-/* ============================================================
-   Mochi UI Design Tokens
-   Single source of truth — consumed by components, Figma,
-   the SCSS mirror, and the TypeScript tokenMap.
-   AUTO-GENERATED sections are overwritten by generate-tokens.js
-   Manual sections: everything in this file.
-   ============================================================ */
+/**
+ * MOCHI UI — Design Tokens v2.0
+ * Claymorphism Design System
+ */
 
 :root {
+  /* ─── COLOR SYSTEM ─── */
+  --mochi-clay-50: #fdf8f3;
+  --mochi-clay-100: #f5ebe0;
+  --mochi-clay-200: #e8d5c0;
+  --mochi-clay-300: #d4b896;
+  --mochi-clay-400: #c49a6c;
+  --mochi-clay-500: #b07d4b;
+  --mochi-clay-600: #94633a;
+  --mochi-clay-700: #7a4f2f;
+  --mochi-clay-800: #5c3b24;
+  --mochi-clay-900: #3d2718;
 
-  /* ── BRAND COLORS ──────────────────────────────────────────── */
-  --mochi-mint:             #A3E635;
-  --mochi-mint-vivid:       #84CC16;
-  --mochi-mint-pale:        #D9F99D;
+  --mochi-terra-50: #fef2f0;
+  --mochi-terra-100: #fde0db;
+  --mochi-terra-200: #fbc0b6;
+  --mochi-terra-300: #f79485;
+  --mochi-terra-400: #f06854;
+  --mochi-terra-500: #e0442e;
+  --mochi-terra-600: #c23522;
+  --mochi-terra-700: #a12b1c;
+  --mochi-terra-800: #7d2216;
+  --mochi-terra-900: #591811;
 
-  --mochi-lavender:         #C084FC;
-  --mochi-lavender-vivid:   #A855F7;
-  --mochi-lavender-pale:    #E9D5FF;
+  --mochi-sage-50: #f4f7f4;
+  --mochi-sage-100: #e3ebe3;
+  --mochi-sage-200: #c7d8c7;
+  --mochi-sage-300: #a3c2a3;
+  --mochi-sage-400: #7aaa7a;
+  --mochi-sage-500: #5c8f5c;
+  --mochi-sage-600: #4a754a;
+  --mochi-sage-700: #3b5e3b;
+  --mochi-sage-800: #2d482d;
+  --mochi-sage-900: #1f321f;
 
-  --mochi-sky-blue:         #38BDF8;
-  --mochi-baby-blue:        #7DD3FC;
-  --mochi-powder-blue:      #BAE6FD;
+  --mochi-sand-50: #faf8f5;
+  --mochi-sand-100: #f0ebe4;
+  --mochi-sand-200: #ddd4c8;
+  --mochi-sand-300: #c4b7a6;
+  --mochi-sand-400: #a89985;
+  --mochi-sand-500: #8f7d68;
+  --mochi-sand-600: #756654;
+  --mochi-sand-700: #5e5143;
+  --mochi-sand-800: #483e33;
+  --mochi-sand-900: #312a22;
 
-  --mochi-blush-pink:       #FDA4AF;
-  --mochi-soft-rose:        #FB7185;
+  --mochi-slate-50: #f6f7f9;
+  --mochi-slate-100: #eceef2;
+  --mochi-slate-200: #d5dae2;
+  --mochi-slate-300: #b0bac9;
+  --mochi-slate-400: #8a96a8;
+  --mochi-slate-500: #6b7788;
+  --mochi-slate-600: #555f6e;
+  --mochi-slate-700: #444c59;
+  --mochi-slate-800: #353b45;
+  --mochi-slate-900: #1e2229;
 
-  --mochi-peach:            #FB923C;
-  --mochi-peach-pale:       #FED7AA;
+  /* Semantic */
+  --mochi-surface: var(--mochi-sand-50);
+  --mochi-surface-elevated: #ffffff;
+  --mochi-surface-sunken: var(--mochi-sand-100);
+  --mochi-surface-inset: var(--mochi-sand-200);
+  --mochi-text-primary: var(--mochi-sand-900);
+  --mochi-text-secondary: var(--mochi-sand-600);
+  --mochi-text-tertiary: var(--mochi-sand-400);
+  --mochi-text-inverse: var(--mochi-sand-50);
+  --mochi-border: var(--mochi-sand-200);
+  --mochi-border-subtle: var(--mochi-sand-100);
 
-  --mochi-sage:             #86EFAC;
-  --mochi-mint-green:       #4ADE80;
+  /* ─── TYPOGRAPHY ─── */
+  --mochi-font-display: 'Instrument Serif', 'Georgia', serif;
+  --mochi-font-body: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+  --mochi-font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
 
-  --mochi-ivory:            #FEF3C7;
-  --mochi-soft-taupe:       #D6D3D1;
-  --mochi-warm-beige:       #F5E6D3;
+  /* Fluid type scale */
+  --mochi-text-xs:   clamp(0.625rem,  0.58rem + 0.22vw, 0.75rem);
+  --mochi-text-sm:   clamp(0.75rem,   0.69rem + 0.28vw, 0.875rem);
+  --mochi-text-base: clamp(0.875rem,  0.81rem + 0.33vw, 1rem);
+  --mochi-text-lg:   clamp(1rem,      0.92rem + 0.39vw, 1.125rem);
+  --mochi-text-xl:   clamp(1.125rem,  1.03rem + 0.44vw, 1.25rem);
+  --mochi-text-2xl:  clamp(1.25rem,   1.08rem + 0.83vw, 1.5rem);
+  --mochi-text-3xl:  clamp(1.5rem,    1.25rem + 1.25vw, 2rem);
+  --mochi-text-4xl:  clamp(1.875rem,  1.42rem + 2.28vw, 3rem);
+  --mochi-text-5xl:  clamp(2.25rem,   1.5rem  + 3.75vw, 4rem);
+  --mochi-text-6xl:  clamp(3rem,      1.83rem + 5.83vw, 6rem);
+  --mochi-text-7xl:  clamp(3.75rem,   2rem    + 8.75vw, 8rem);
 
-  /* ── DARK MODE SURFACES ────────────────────────────────────── */
-  --mochi-dark-base:        #16162A;
-  --mochi-dark-elevated:    #1E1E2E;
-  --mochi-dark-surface:     #2D2D44;
-  --mochi-dark-card:        #252538;
-  --mochi-dark-inset:       #1A1A2E;
+  --mochi-weight-light:    300;
+  --mochi-weight-regular:  400;
+  --mochi-weight-medium:   500;
+  --mochi-weight-semibold: 600;
+  --mochi-weight-bold:     700;
 
-  /* ── SEMANTIC SURFACES (light defaults) ───────────────────── */
-  --bg-base:                var(--mochi-warm-beige);
-  --bg-surface:             #FFF8F0;
-  --bg-card:                #FFFFFF;
-  --bg-inset:               #F0EAE4;
-  --bg-overlay:             rgba(0, 0, 0, 0.35);
+  --mochi-leading-tight:   1.1;
+  --mochi-leading-snug:    1.25;
+  --mochi-leading-normal:  1.5;
+  --mochi-leading-relaxed: 1.625;
+  --mochi-leading-loose:   2;
 
-  --border-subtle:          rgba(0, 0, 0, 0.07);
-  --border-strong:          rgba(0, 0, 0, 0.14);
+  --mochi-tracking-tighter: -0.05em;
+  --mochi-tracking-tight:   -0.025em;
+  --mochi-tracking-normal:   0;
+  --mochi-tracking-wide:     0.025em;
+  --mochi-tracking-wider:    0.05em;
+  --mochi-tracking-widest:   0.1em;
 
-  --text-primary:           #2D2D44;
-  --text-secondary:         #6B6B8B;
-  --text-tertiary:          #9B9BB8;
-  --text-inverse:           #FFFFFF;
+  /* ─── 5-LAYER SHADOW SYSTEM ─── */
+  --mochi-shadow-outer-dark:      8px 8px 16px rgba(0, 0, 0, 0.08);
+  --mochi-shadow-outer-light:    -8px -8px 16px rgba(255, 255, 255, 0.9);
+  --mochi-shadow-inset-highlight: inset 2px 2px 4px rgba(255, 255, 255, 0.7);
+  --mochi-shadow-inset-shadow:    inset -2px -2px 4px rgba(0, 0, 0, 0.04);
+  --mochi-shadow-edge:            0 0 0 1px rgba(255, 255, 255, 0.5);
 
-  /* ── SQUIRCLE RADIUS FAMILY ────────────────────────────────── */
-  /* n=4.8 superellipse at each step — use these everywhere */
-  --radius-squircle-xs:     8px;
-  --radius-squircle-sm:     14px;
-  --radius-squircle-md:     20px;
-  --radius-squircle-lg:     28px;
-  --radius-squircle-xl:     38px;
-  --radius-squircle-hero:   52px;
+  --mochi-clay-rest:
+    var(--mochi-shadow-outer-dark),
+    var(--mochi-shadow-outer-light),
+    var(--mochi-shadow-edge);
 
-  /* Legacy aliases — resolve to squircle family */
-  --radius-clay:            50%;
-  --radius-bento:           var(--radius-squircle-lg);
-  --radius-pill:            9999px;
-  --radius-button:          var(--radius-squircle-sm);
-  --radius-card:            var(--radius-squircle-lg);
-  --radius-input:           var(--radius-squircle-sm);
+  --mochi-clay-pressed:
+    var(--mochi-shadow-inset-highlight),
+    var(--mochi-shadow-inset-shadow);
 
-  /* ── SPACING (8px grid) ────────────────────────────────────── */
-  --space-1:   4px;
-  --space-2:   8px;
-  --space-3:   12px;
-  --space-4:   16px;
-  --space-5:   20px;
-  --space-6:   24px;
-  --space-8:   32px;
-  --space-10:  40px;
-  --space-12:  48px;
-  --space-16:  64px;
-  --space-20:  80px;
-  --space-24:  96px;
+  --mochi-clay-elevated:
+    12px 12px 24px rgba(0, 0, 0, 0.1),
+    -12px -12px 24px rgba(255, 255, 255, 0.95),
+    var(--mochi-shadow-edge);
 
-  /* ── RESPONSIVE SECTION PADDING ───────────────────────────── */
-  --section-padding-y:      clamp(48px, 10vw, 80px);
-  --section-padding-x:      clamp(16px, 5vw, 48px);
+  --mochi-clay-inset:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.06),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.8);
 
-  /* ── SHADOW MATRIX ─────────────────────────────────────────── */
-  --shadow-lift-sm:   0 4px 8px   rgba(0,0,0,0.10);
-  --shadow-lift-md:   0 8px 16px  rgba(0,0,0,0.10);
-  --shadow-lift-lg:   0 20px 40px rgba(0,0,0,0.10);
+  /* ─── SPACING ─── */
+  --mochi-space-1:  0.25rem;
+  --mochi-space-2:  0.5rem;
+  --mochi-space-3:  0.75rem;
+  --mochi-space-4:  1rem;
+  --mochi-space-5:  1.25rem;
+  --mochi-space-6:  1.5rem;
+  --mochi-space-8:  2rem;
+  --mochi-space-10: 2.5rem;
+  --mochi-space-12: 3rem;
+  --mochi-space-16: 4rem;
+  --mochi-space-20: 5rem;
+  --mochi-space-24: 6rem;
+  --mochi-space-32: 8rem;
 
-  --shadow-volume:    inset -10px -10px 20px rgba(0,0,0,0.05);
-  --shadow-reflection: inset 10px 10px 20px rgba(255,255,255,0.8);
+  /* ─── BORDER RADIUS ─── */
+  --mochi-radius-sm:   8px;
+  --mochi-radius-md:   12px;
+  --mochi-radius-lg:   16px;
+  --mochi-radius-xl:   24px;
+  --mochi-radius-2xl:  32px;
+  --mochi-radius-full: 9999px;
 
-  --shadow-clay:      var(--shadow-lift-md), var(--shadow-volume), var(--shadow-reflection);
-  --shadow-pressed:   inset 0 4px 8px rgba(0,0,0,0.1), var(--shadow-volume);
+  /* ─── ANIMATION ─── */
+  --mochi-spring-gentle:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --mochi-spring-snappy:  cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --mochi-spring-bouncy:  cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --mochi-spring-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* Glow tokens for vivid colorways */
-  --shadow-glow-mint:     0 0 24px rgba(132, 204, 22, 0.45);
-  --shadow-glow-lavender: 0 0 24px rgba(168, 85, 247, 0.40);
-  --shadow-glow-sky:      0 0 24px rgba(56, 189, 248, 0.40);
+  --mochi-duration-instant: 80ms;
+  --mochi-duration-fast:    150ms;
+  --mochi-duration-normal:  250ms;
+  --mochi-duration-slow:    400ms;
+  --mochi-duration-slower:  600ms;
 
-  /* ── MOTION ────────────────────────────────────────────────── */
-  --spring-bounce:    0.4;
-  --spring-duration:  300ms;
-  --ease-clay:        cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth:      cubic-bezier(0.40, 0.00, 0.20, 1);
-  --ease-bounce:      cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  --ease-out-expo:    cubic-bezier(0.19, 1.00, 0.22, 1.00);
+  --mochi-ease-default:  cubic-bezier(0.4, 0, 0.2, 1);
+  --mochi-ease-in:       cubic-bezier(0.4, 0, 1, 1);
+  --mochi-ease-out:      cubic-bezier(0, 0, 0.2, 1);
+  --mochi-ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* ── TYPOGRAPHY ────────────────────────────────────────────── */
-  --font-family:  'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono:    'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
-
-  /* Semantic roles */
-  --type-display-size:    clamp(2.75rem, 6vw, 5rem);
-  --type-display-weight:  900;
-  --type-display-line:    1.05;
-  --type-display-track:   -0.03em;
-
-  --type-title-size:      clamp(1.5rem, 3vw, 2rem);
-  --type-title-weight:    800;
-  --type-title-line:      1.2;
-  --type-title-track:     -0.02em;
-
-  --type-label-size:      0.75rem;
-  --type-label-weight:    700;
-  --type-label-line:      1.3;
-  --type-label-track:     0.08em;
-
-  --type-body-size:       1rem;
-  --type-body-weight:     400;
-  --type-body-line:       1.6;
-  --type-body-track:      0em;
-
-  --type-meta-size:       0.8125rem;
-  --type-meta-weight:     500;
-  --type-meta-line:       1.4;
-  --type-meta-track:      0.01em;
+  /* ─── Z-INDEX ─── */
+  --mochi-z-base:           0;
+  --mochi-z-dropdown:       100;
+  --mochi-z-sticky:         200;
+  --mochi-z-fixed:          300;
+  --mochi-z-modal-backdrop: 400;
+  --mochi-z-modal:          500;
+  --mochi-z-popover:        600;
+  --mochi-z-tooltip:        700;
+  --mochi-z-toast:          800;
 }
 
-/* ── DARK THEME ──────────────────────────────────────────────── */
+/* ─── DARK MODE ─── */
 [data-theme="dark"] {
-  --bg-base:        var(--mochi-dark-base);
-  --bg-surface:     var(--mochi-dark-elevated);
-  --bg-card:        var(--mochi-dark-card);
-  --bg-inset:       var(--mochi-dark-inset);
+  --mochi-surface:          var(--mochi-slate-900);
+  --mochi-surface-elevated: var(--mochi-slate-800);
+  --mochi-surface-sunken:   var(--mochi-slate-900);
+  --mochi-surface-inset:    var(--mochi-slate-800);
+  --mochi-text-primary:     var(--mochi-sand-100);
+  --mochi-text-secondary:   var(--mochi-sand-400);
+  --mochi-text-tertiary:    var(--mochi-sand-600);
+  --mochi-text-inverse:     var(--mochi-slate-900);
+  --mochi-border:           var(--mochi-slate-700);
+  --mochi-border-subtle:    var(--mochi-slate-800);
 
-  --border-subtle:  rgba(255, 255, 255, 0.06);
-  --border-strong:  rgba(255, 255, 255, 0.12);
-
-  --text-primary:   #E8E8F0;
-  --text-secondary: #A0A0B8;
-  --text-tertiary:  #6A6A8A;
-
-  --shadow-lift-md:    0 8px 16px  rgba(0,0,0,0.35);
-  --shadow-lift-lg:    0 20px 40px rgba(0,0,0,0.45);
-  --shadow-volume:     inset -10px -10px 20px rgba(0,0,0,0.25);
-  --shadow-reflection: inset 10px 10px 20px rgba(255,255,255,0.04);
+  --mochi-shadow-outer-dark:      8px 8px 16px rgba(0, 0, 0, 0.4);
+  --mochi-shadow-outer-light:    -8px -8px 16px rgba(255, 255, 255, 0.03);
+  --mochi-shadow-inset-highlight: inset 2px 2px 4px rgba(255, 255, 255, 0.05);
+  --mochi-shadow-inset-shadow:    inset -2px -2px 4px rgba(0, 0, 0, 0.3);
+  --mochi-shadow-edge:            0 0 0 1px rgba(255, 255, 255, 0.05);
 }
 
-/* ── LIGHT THEME (explicit) ──────────────────────────────────── */
-[data-theme="light"] {
-  --bg-base:        var(--mochi-warm-beige);
-  --bg-surface:     #FFF8F0;
-  --bg-card:        #FFFFFF;
-  --bg-inset:       #F0EAE4;
-
-  --border-subtle:  rgba(0, 0, 0, 0.07);
-  --border-strong:  rgba(0, 0, 0, 0.14);
-
-  --text-primary:   #2D2D44;
-  --text-secondary: #6B6B8B;
-  --text-tertiary:  #9B9BB8;
-}
-
-/* ── REDUCED MOTION ──────────────────────────────────────────── */
+/* ─── REDUCED MOTION ─── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration:   0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration:  0.01ms !important;
+  :root {
+    --mochi-spring-gentle: ease;
+    --mochi-spring-snappy: ease;
+    --mochi-spring-bouncy: ease;
+    --mochi-spring-smooth: ease;
+    --mochi-duration-instant: 0ms;
+    --mochi-duration-fast:    0ms;
+    --mochi-duration-normal:  0ms;
+    --mochi-duration-slow:    0ms;
+    --mochi-duration-slower:  0ms;
   }
 }
