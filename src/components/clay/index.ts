@@ -1,37 +1,62 @@
 /**
- * Single clay barrel export.
- * Usage: import { ClayButton, ClayCard } from '@/components/clay';
+ * MOCHI UI — Clay Components Barrel Export
+ * Includes all claymorphic components and ThemeProvider.
  */
-export { ClayButton }            from './ClayButton';
-export { ClayCard }              from './ClayCard';
-export { ClayModal }             from './ClayModal';
-export { ClaySkeleton }         from './ClaySkeleton';
-export { ClayTooltip }          from './ClayTooltip';
-export { ClaySlider }           from './ClaySlider';
-export { ClayToggle }           from './ClayToggle';
-export { ClayInput }            from './ClayInput';
-export { ClayBadge }            from './ClayBadge';
-export { ClayAvatar }           from './ClayAvatar';
-export { ClayProgress }         from './ClayProgress';
-export { ClaySegmentedControl } from './ClaySegmentedControl';
-export { ClayChartBar }         from './ClayChartBar';
-export { ClayToast, useToast }  from './ClayToast';
-export { ClayCommandPalette }   from './ClayCommandPalette';
-export { ClayDataTable }        from './ClayDataTable';
 
-export type { ClayButtonProps }           from './ClayButton';
-export type { ClayCardProps }             from './ClayCard';
-export type { ClayModalProps }            from './ClayModal';
-export type { ClaySkeletonProps }         from './ClaySkeleton';
-export type { ClayTooltipProps }          from './ClayTooltip';
-export type { ClaySliderProps }           from './ClaySlider';
-export type { ClayToggleProps }           from './ClayToggle';
-export type { ClayInputProps }            from './ClayInput';
-export type { ClayBadgeProps }            from './ClayBadge';
-export type { ClayAvatarProps }           from './ClayAvatar';
-export type { ClayProgressProps }         from './ClayProgress';
-export type { ClaySegmentedControlProps, SegmentOption } from './ClaySegmentedControl';
-export type { ClayChartBarProps }         from './ClayChartBar';
-export type { ToastItem, ToastVariant, ClayToastProps } from './ClayToast';
-export type { CommandItem, ClayCommandPaletteProps }    from './ClayCommandPalette';
-export type { TableColumn, ClayDataTableProps }         from './ClayDataTable';
+// ── Buttons & Actions ──────────────────────────────
+export { ClayButton }              from './ClayButton';
+export type { ClayButtonProps }    from './ClayButton';
+
+// ── Layout & Containers ───────────────────────────
+export { ClayCard }                from './ClayCard';
+export type { ClayCardProps }      from './ClayCard';
+
+export { ClayModal }               from './ClayModal';
+export type { ClayModalProps }     from './ClayModal';
+
+// ── Form Controls ─────────────────────────────────
+export { ClayInput }               from './ClayInput';
+export type { ClayInputProps }     from './ClayInput';
+
+export { ClayToggle }              from './ClayToggle';
+export type { ClayToggleProps }    from './ClayToggle';
+
+export { ClaySlider }              from './ClaySlider';
+export type { ClaySliderProps }    from './ClaySlider';
+
+export { ClaySegmentedControl }                   from './ClaySegmentedControl';
+export type { ClaySegmentedControlProps, SegmentedOption } from './ClaySegmentedControl';
+
+// ── Feedback & Status ─────────────────────────────
+export { ClayProgress }            from './ClayProgress';
+export type { ClayProgressProps }  from './ClayProgress';
+
+export { ClayBadge }               from './ClayBadge';
+export type { ClayBadgeProps }     from './ClayBadge';
+
+export { ClayToast }               from './ClayToast';
+export type { ClayToastProps }     from './ClayToast';
+
+export { ClaySkeleton }            from './ClaySkeleton';
+export type { ClaySkeletonProps }  from './ClaySkeleton';
+
+// ── Overlays & Floating UI ────────────────────────
+export { ClayTooltip }             from './ClayTooltip';
+export type { ClayTooltipProps }   from './ClayTooltip';
+
+// ── Data Display ──────────────────────────────────
+export { ClayAvatar }              from './ClayAvatar';
+export type { ClayAvatarProps }    from './ClayAvatar';
+
+export { ClayChartBar }            from './ClayChartBar';
+export type { ClayChartBarProps }  from './ClayChartBar';
+
+export { ClayDataTable }           from './ClayDataTable';
+export type { ClayDataTableProps } from './ClayDataTable';
+
+export { ClayCommandPalette }                   from './ClayCommandPalette';
+export type { ClayCommandPaletteProps }         from './ClayCommandPalette';
+
+// ── Theme ─────────────────────────────────────────
+export { ThemeProvider, useTheme } from '../../providers/ThemeProvider';
+export type { ThemeProviderProps } from '../../providers/ThemeProvider';

@@ -1,0 +1,127 @@
+/**
+ * MOCHI UI — Global Animations & Utilities
+ * Import in your global CSS or layout.tsx
+ */
+
+/* ─── HAPTIC PULSE ─── */
+@keyframes hapticPulse {
+  0%   { opacity: 0.6; transform: scale(0.8); }
+  100% { opacity: 0;   transform: scale(1.5); }
+}
+
+/* ─── ENTRANCE ANIMATIONS ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ─── PROGRESS STRIPE ─── */
+@keyframes clayProgressStripes {
+  from { background-position: 1rem 0; }
+  to   { background-position: 0 0; }
+}
+
+@keyframes clayProgressPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* ─── SCROLL-TRIGGERED REVEAL ─── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity   var(--mochi-duration-slow)   var(--mochi-ease-out),
+    transform var(--mochi-duration-slow)   var(--mochi-spring-gentle);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── STAGGER CHILDREN ─── */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.stagger-children.is-visible > * {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity   var(--mochi-duration-normal) var(--mochi-ease-out),
+    transform var(--mochi-duration-normal) var(--mochi-spring-snappy);
+}
+
+.stagger-children.is-visible > *:nth-child(1) { transition-delay: 0ms;   }
+.stagger-children.is-visible > *:nth-child(2) { transition-delay: 50ms;  }
+.stagger-children.is-visible > *:nth-child(3) { transition-delay: 100ms; }
+.stagger-children.is-visible > *:nth-child(4) { transition-delay: 150ms; }
+.stagger-children.is-visible > *:nth-child(5) { transition-delay: 200ms; }
+.stagger-children.is-visible > *:nth-child(6) { transition-delay: 250ms; }
+
+/* ─── GRADIENT TEXT ─── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--mochi-terra-500), var(--mochi-clay-500));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── DISABLE TRANSITIONS (used by ThemeProvider) ─── */
+.disable-transitions *,
+.disable-transitions *::before,
+.disable-transitions *::after {
+  transition-duration: 0ms !important;
+}
+
+/* ─── TEXT SELECTION ─── */
+::selection {
+  background: var(--mochi-terra-200);
+  color: var(--mochi-terra-900);
+}
+
+/* ─── GLOBAL FOCUS VISIBLE ─── */
+*:focus-visible {
+  outline: 2px solid var(--mochi-terra-400);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─── SMOOTH THEME TRANSITIONS ─── */
+*,
+*::before,
+*::after {
+  transition:
+    background-color var(--mochi-duration-normal) var(--mochi-ease-default),
+    border-color     var(--mochi-duration-normal) var(--mochi-ease-default),
+    box-shadow       var(--mochi-duration-normal) var(--mochi-ease-default);
+}
+
+/* ─── REDUCED MOTION OVERRIDE ─── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-on-scroll,
+  .stagger-children > * {
+    opacity: 1;
+    transform: none;
+  }
+}

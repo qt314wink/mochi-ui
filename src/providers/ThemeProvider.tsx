@@ -1,0 +1,113 @@
+'use client';
+
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
+
+type Theme = 'light' | 'dark' | 'system';
+type ResolvedTheme = 'light' | 'dark';
+
+interface ThemeContextType {
+  theme: Theme;
+  resolvedTheme: ResolvedTheme;
+  setTheme: (theme: Theme) => void;
+  toggleTheme: () => void;
+}
+
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+
+export const useTheme = (): ThemeContextType => {
+  const ctx = useContext(ThemeContext);
+  if (!ctx) throw new Error('useTheme must be used within <ThemeProvider>');
+  return ctx;
+};
+
+export interface ThemeProviderProps {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+  enableSystem?: boolean;
+  disableTransitionOnChange?: boolean;
+}
+
+export const ThemeProvider: React.FC<ThemeProviderProps> = ({
+  children,
+  defaultTheme = 'system',
+  storageKey = 'mochi-theme',
+  enableSystem = true,
+  disableTransitionOnChange = false,
+}) => {
+  const [theme, setThemeState] = useState<Theme>(defaultTheme);
+  const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('light');
+  const [mounted, setMounted] = useState(false);
+
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(storageKey) as Theme | null;
+    if (stored && ['light', 'dark', 'system'].includes(stored)) {
+      setThemeState(stored);
+    }
+    setMounted(true);
+  }, [storageKey]);
+
+  // Apply resolved theme to <html>
+  useEffect(() => {
+    if (!mounted) return;
+
+    const resolve = (): ResolvedTheme => {
+      if (theme === 'system' && enableSystem) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      return theme as ResolvedTheme;
+    };
+
+    const resolved = resolve();
+    setResolvedTheme(resolved);
+
+    const root = document.documentElement;
+
+    if (disableTransitionOnChange) {
+      root.classList.add('disable-transitions');
+    }
+
+    root.setAttribute('data-theme', resolved);
+    resolved === 'dark' ? root.classList.add('dark') : root.classList.remove('dark');
+
+    if (disableTransitionOnChange) {
+      requestAnimationFrame(() => root.classList.remove('disable-transitions'));
+    }
+  }, [theme, enableSystem, mounted, disableTransitionOnChange]);
+
+  // Watch system preference
+  useEffect(() => {
+    if (!enableSystem || theme !== 'system' || !mounted) return;
+    const mq = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = (e: MediaQueryListEvent) =>
+      setResolvedTheme(e.matches ? 'dark' : 'light');
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, [theme, enableSystem, mounted]);
+
+  const setTheme = useCallback(
+    (next: Theme) => {
+      setThemeState(next);
+      localStorage.setItem(storageKey, next);
+    },
+    [storageKey]
+  );
+
+  const toggleTheme = useCallback(() => {
+    setTheme(resolvedTheme === 'light' ? 'dark' : 'light');
+  }, [resolvedTheme, setTheme]);
+
+  // Prevent flash of wrong theme
+  if (!mounted) {
+    return <div style={{ visibility: 'hidden' }}>{children}</div>;
+  }
+
+  return (
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+export default ThemeProvider;

@@ -1,0 +1,85 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@mochi-ui/react/dist/**/*.{js,ts,jsx,tsx}',
+  ],
+  darkMode: ['class', '[data-theme="dark"]'],
+  theme: {
+    extend: {
+      colors: {
+        clay: {
+          50:  'var(--mochi-clay-50)',
+          100: 'var(--mochi-clay-100)',
+          200: 'var(--mochi-clay-200)',
+          300: 'var(--mochi-clay-300)',
+          400: 'var(--mochi-clay-400)',
+          500: 'var(--mochi-clay-500)',
+          600: 'var(--mochi-clay-600)',
+          700: 'var(--mochi-clay-700)',
+          800: 'var(--mochi-clay-800)',
+          900: 'var(--mochi-clay-900)',
+        },
+        terra: {
+          50:  'var(--mochi-terra-50)',
+          100: 'var(--mochi-terra-100)',
+          200: 'var(--mochi-terra-200)',
+          300: 'var(--mochi-terra-300)',
+          400: 'var(--mochi-terra-400)',
+          500: 'var(--mochi-terra-500)',
+          600: 'var(--mochi-terra-600)',
+          700: 'var(--mochi-terra-700)',
+          800: 'var(--mochi-terra-800)',
+          900: 'var(--mochi-terra-900)',
+        },
+        sage: {
+          50:  'var(--mochi-sage-50)',
+          100: 'var(--mochi-sage-100)',
+          200: 'var(--mochi-sage-200)',
+          300: 'var(--mochi-sage-300)',
+          400: 'var(--mochi-sage-400)',
+          500: 'var(--mochi-sage-500)',
+          600: 'var(--mochi-sage-600)',
+          700: 'var(--mochi-sage-700)',
+          800: 'var(--mochi-sage-800)',
+          900: 'var(--mochi-sage-900)',
+        },
+        sand: {
+          50:  'var(--mochi-sand-50)',
+          100: 'var(--mochi-sand-100)',
+          200: 'var(--mochi-sand-200)',
+          300: 'var(--mochi-sand-300)',
+          400: 'var(--mochi-sand-400)',
+          500: 'var(--mochi-sand-500)',
+          600: 'var(--mochi-sand-600)',
+          700: 'var(--mochi-sand-700)',
+          800: 'var(--mochi-sand-800)',
+          900: 'var(--mochi-sand-900)',
+        },
+      },
+      fontFamily: {
+        display: ['var(--mochi-font-display)', 'Georgia', 'serif'],
+        body:    ['var(--mochi-font-body)',    'system-ui', 'sans-serif'],
+        mono:    ['var(--mochi-font-mono)',    'monospace'],
+      },
+      borderRadius: {
+        clay:    'var(--mochi-radius-xl)',
+        'clay-lg': 'var(--mochi-radius-2xl)',
+      },
+      boxShadow: {
+        clay:           'var(--mochi-clay-rest)',
+        'clay-elevated':'var(--mochi-clay-elevated)',
+        'clay-pressed': 'var(--mochi-clay-pressed)',
+        'clay-inset':   'var(--mochi-clay-inset)',
+      },
+      transitionTimingFunction: {
+        'spring-gentle': 'var(--mochi-spring-gentle)',
+        'spring-snappy': 'var(--mochi-spring-snappy)',
+        'spring-bouncy': 'var(--mochi-spring-bouncy)',
+      },
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms')({ strategy: 'class' }),
+  ],
+};
