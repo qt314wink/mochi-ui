@@ -10,118 +10,94 @@ export interface ClayToggleProps {
   label?: string;
 }
 
-const colorwayColors = {
-  mint: { active: 'hsl(142deg 76% 75%)', knob: '#ffffff' },
-  blue: { active: 'hsl(200deg 90% 85%)', knob: '#ffffff' },
-  pink: { active: 'hsl(350deg 90% 85%)', knob: '#ffffff' },
-  lavender: { active: 'hsl(270deg 70% 85%)', knob: '#ffffff' },
+// Token-resolved active backgrounds — no raw hsl()
+const colorwayActive: Record<string, string> = {
+  mint:     'var(--mochi-mint)',
+  blue:     'var(--mochi-baby-blue)',
+  pink:     'var(--mochi-blush-pink)',
+  lavender: 'var(--mochi-lavender)',
 };
 
 const sizes = {
-  sm: { width: 48, height: 28, knob: 22 },
+  sm: { width: 52, height: 30, knob: 22 },
   md: { width: 64, height: 36, knob: 28 },
   lg: { width: 80, height: 44, knob: 36 },
 };
 
 export const ClayToggle: React.FC<ClayToggleProps> = ({
   checked: controlledChecked,
-  onChange,
-  colorway = 'mint',
-  size = 'md',
-  disabled = false,
-  label,
+  onChange, colorway = 'mint', size = 'md', disabled = false, label,
 }) => {
-  const [internalChecked, setInternalChecked] = useState(false);
-  const isChecked = controlledChecked !== undefined ? controlledChecked : internalChecked;
-
-  const colors = colorwayColors[colorway];
+  const [internal, setInternal] = useState(false);
+  const isChecked = controlledChecked !== undefined ? controlledChecked : internal;
   const dims = sizes[size];
+  const spring = { stiffness: 400, damping: 25, mass: 0.8 };
 
-  // Spring for knob position
-  const springConfig = { stiffness: 400, damping: 25, mass: 0.8 };
-  const knobX = useSpring(isChecked ? dims.width - dims.knob - 4 : 4, springConfig);
-
-  // Spring for scale (squish effect)
-  const scale = useSpring(1, { stiffness: 500, damping: 20 });
-
-  // Shadow animation
+  const knobX  = useSpring(isChecked ? dims.width - dims.knob - 4 : 4, spring);
+  const scale  = useSpring(1, { stiffness: 500, damping: 20 });
   const shadowX = useTransform(knobX, (x) => x > dims.width / 2 ? -2 : 2);
+  const shadowStr = useTransform(shadowX, (sx) =>
+    `${sx}px 2px 6px rgba(0,0,0,0.15), ${-sx}px -1px 3px rgba(255,255,255,0.9)`
+  );
 
   const handleToggle = useCallback(() => {
     if (disabled) return;
-
-    const newValue = !isChecked;
-
-    // Squish animation on toggle
+    const next = !isChecked;
     scale.set(0.9);
     setTimeout(() => scale.set(1), 150);
-
-    // Move knob
-    knobX.set(newValue ? dims.width - dims.knob - 4 : 4);
-
-    // Haptic
-    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-      navigator.vibrate(newValue ? [10, 5, 15] : [8]);
-    }
-
-    if (controlledChecked === undefined) {
-      setInternalChecked(newValue);
-    }
-    onChange?.(newValue);
+    knobX.set(next ? dims.width - dims.knob - 4 : 4);
+    try { if ('vibrate' in navigator) navigator.vibrate(next ? [10, 5, 15] : [8]); } catch {}
+    if (controlledChecked === undefined) setInternal(next);
+    onChange?.(next);
   }, [isChecked, disabled, onChange, controlledChecked, knobX, scale, dims]);
 
+  // Minimum tap target: entire wrapper row is at least 44px tall
   return (
-    <div 
-      className="clay-toggle-wrapper"
-      style={{ 
-        display: 'flex', 
-        alignItems: 'center', 
-        gap: 12,
-        opacity: disabled ? 0.5 : 1,
-      }}
-    >
+    <div style={{
+      display: 'flex', alignItems: 'center',
+      gap: 'var(--space-3)',
+      minHeight: 44,
+      opacity: disabled ? 0.5 : 1,
+    }}>
       {label && (
-        <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--text-primary)' }}>
+        <span style={{
+          fontSize: 'var(--type-body-size)',
+          fontWeight: 500,
+          fontFamily: 'var(--font-family)',
+          color: 'var(--text-primary)',
+        }}>
           {label}
         </span>
       )}
 
       <motion.div
-        className="clay-toggle"
+        role="switch"
+        aria-checked={isChecked}
+        aria-label={label}
+        tabIndex={disabled ? -1 : 0}
+        onClick={handleToggle}
+        onKeyDown={(e) => { if (e.key === ' ' || e.key === 'Enter') handleToggle(); }}
         style={{
-          width: dims.width,
-          height: dims.height,
-          borderRadius: dims.height / 2,
-          background: isChecked ? colors.active : 'var(--bg-surface)',
-          boxShadow: `
-            inset 4px 4px 8px rgba(0,0,0,0.1),
-            inset -4px -4px 8px rgba(255,255,255,0.8)
-          `,
+          width: dims.width, height: dims.height,
+          borderRadius: 'var(--radius-pill)',
+          background: isChecked ? colorwayActive[colorway] : 'var(--bg-surface)',
+          boxShadow: 'inset 4px 4px 8px rgba(0,0,0,0.1), inset -4px -4px 8px rgba(255,255,255,0.8)',
           cursor: disabled ? 'not-allowed' : 'pointer',
+          position: 'relative', flexShrink: 0,
           scale,
         }}
-        onClick={handleToggle}
         whileTap={{ scale: 0.95 }}
         data-checked={isChecked}
       >
-        <motion.div
-          className="clay-toggle__knob"
-          style={{
-            width: dims.knob,
-            height: dims.knob,
-            borderRadius: '50%',
-            background: `radial-gradient(circle at 35% 35%, ${colors.knob}, #f0f0f0)`,
-            x: knobX,
-            y: (dims.height - dims.knob) / 2,
-            boxShadow: useTransform(
-              shadowX,
-              (sx) => `
-                ${sx}px 2px 6px rgba(0,0,0,0.15),
-                ${-sx}px -1px 3px rgba(255,255,255,0.9)
-              `
-            ),
-          }}
-        />
+        <motion.div style={{
+          position: 'absolute',
+          width: dims.knob, height: dims.knob,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle at 35% 35%, #ffffff, #f0f0f0)',
+          x: knobX,
+          y: (dims.height - dims.knob) / 2,
+          boxShadow: shadowStr,
+        }} />
       </motion.div>
     </div>
   );
