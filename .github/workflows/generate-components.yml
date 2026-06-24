@@ -10,7 +10,7 @@ on:
       commit_message:
         description: 'Custom commit message'
         required: false
-        default: 'chore: auto-generate tokenized components'
+        default: 'chore: auto-generate tokenized components [skip ci]'
 
   push:
     branches:
@@ -26,10 +26,6 @@ jobs:
   generate:
     name: Generate tokens and components
     runs-on: ubuntu-latest
-
-    env:
-      TARGET_BRANCH: ${{ github.event.inputs.branch || github.ref_name }}
-      COMMIT_MSG: ${{ github.event.inputs.commit_message || 'chore: auto-generate tokenized components [skip ci]' }}
 
     steps:
       - name: Checkout repository
@@ -56,6 +52,17 @@ jobs:
       - name: TypeScript type-check
         run: npx tsc --noEmit --skipLibCheck || echo "Type check warnings - not blocking commit"
 
+      - name: Set commit variables
+        id: vars
+        run: |
+          BRANCH="${{ github.event.inputs.branch }}"
+          if [ -z "$BRANCH" ]; then BRANCH="${{ github.ref_name }}"; fi
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+          MSG="${{ github.event.inputs.commit_message }}"
+          if [ -z "$MSG" ]; then MSG="chore: auto-generate tokenized components [skip ci]"; fi
+          echo "msg=$MSG" >> $GITHUB_OUTPUT
+
       - name: Commit and push generated files
         run: |
           git config user.name  "github-actions[bot]"
@@ -64,6 +71,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "Nothing changed - skipping commit."
           else
-            git commit -m "$COMMIT_MSG"
-            git push origin "$TARGET_BRANCH"
+            git commit -m "${{ steps.vars.outputs.msg }}"
+            git push origin "${{ steps.vars.outputs.branch }}"
           fi
