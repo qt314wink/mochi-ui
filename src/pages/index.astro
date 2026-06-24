@@ -1,8 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import EnhancedShowcasePage from '../components/EnhancedShowcasePage';
+import { MochiThemeProvider } from '../components/theme/MochiThemeProvider';
+import MochiBounce from '../components/motion/MochiBounce';
 ---
 
 <Layout title="Mochi UI — Claymorphism Design System & React Component Library">
-  <EnhancedShowcasePage client:load />
+  <MochiThemeProvider client:load defaultMode="system">
+    <MochiBounce client:load />
+    <EnhancedShowcasePage client:load />
+  </MochiThemeProvider>
 </Layout>

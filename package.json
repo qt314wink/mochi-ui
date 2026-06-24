@@ -1,36 +1,65 @@
 {
-  "name": "mochi-ui",
+  "name": "@mochi-ui/react",
+  "version": "0.1.0",
+  "description": "Claymorphism design system — clay primitives, motion layer, theme system",
   "type": "module",
-  "version": "2.0.0",
-  "description": "A multi-sensory claymorphism design system with 3D shaders, spatial audio, spring physics, and Figma compatibility",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src/styles/tokens.css"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "tokens": "node scripts/build-tokens.js",
-    "tokens:expand": "node scripts/expand-tokens.js",
-    "astro": "astro"
+    "build:lib": "tsup",
+    "typecheck": "tsc --noEmit --skipLibCheck",
+    "tokens": "node scripts/build-tokens.cjs"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "motion": ">=11"
+  },
+  "peerDependenciesMeta": {
+    "motion": { "optional": true }
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "claymorphism",
+    "design-system",
+    "mochi",
+    "clay",
+    "motion",
+    "tokens"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qt314wink/mochi-ui"
+  },
+  "homepage": "https://qt314wink.github.io/mochi-ui",
+  "devDependencies": {
+    "@astrojs/react": "^4.3.0",
+    "astro": "^5.8.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.7.2"
   },
   "dependencies": {
-    "astro": "^5.7.0",
-    "@astrojs/react": "^4.2.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "motion": "^12.9.0",
-    "three": "^0.165.0",
-    "@react-three/fiber": "^9.0.0",
-    "@react-three/drei": "^10.0.0",
-    "@react-three/postprocessing": "^3.0.0",
-    "gsap": "^3.13.0",
-    "lenis": "^1.1.0"
-  },
-  "devDependencies": {
-    "typescript": "^5.8.0",
-    "@types/three": "^0.165.0",
     "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0"
-  },
-  "engines": {
-    "node": ">=20.0.0"
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }

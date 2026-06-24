@@ -38,7 +38,7 @@ export type { ClaySegmentedControlProps }   from './components/clay/ClaySegmente
 export { ClayChartBar }             from './components/clay/ClayChartBar';
 export type { ClayChartBarProps }   from './components/clay/ClayChartBar';
 
-// ── New Phase 2 Components ───────────────────────────────────────────────────
+// ── Phase 2 Components ───────────────────────────────────────────────────────
 export { ClayToast, useToast }      from './components/clay/ClayToast';
 export type { ToastItem, ToastVariant, ClayToastProps } from './components/clay/ClayToast';
 
@@ -48,10 +48,16 @@ export type { CommandItem, ClayCommandPaletteProps } from './components/clay/Cla
 export { ClayDataTable }            from './components/clay/ClayDataTable';
 export type { TableColumn, ClayDataTableProps } from './components/clay/ClayDataTable';
 
-// ── Motion Utilities ─────────────────────────────────────────────────────────
+// ── Motion ───────────────────────────────────────────────────────────────────
 export { CursorOrb }                from './components/motion/CursorOrb';
 export { SectionReveal }            from './components/motion/SectionReveal';
 export { StaggerGrid }              from './components/motion/StaggerGrid';
+export { MochiBounce }              from './components/motion/MochiBounce';
+
+// ── Theme System ─────────────────────────────────────────────────────────────
+export { MochiThemeProvider, useMochiTheme, createMochiTheme } from './components/theme/MochiThemeProvider';
+export type { MochiTheme, ColorMode, MochiTokenOverrides } from './components/theme/MochiThemeProvider';
+export { DarkModeToggle }           from './components/theme/DarkModeToggle';
 
 // ── Hooks ────────────────────────────────────────────────────────────────────
 export { useCountUp }               from './hooks/useCountUp';
