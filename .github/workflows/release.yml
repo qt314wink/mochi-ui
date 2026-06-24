@@ -62,7 +62,11 @@ jobs:
             "keywords": ["claymorphism", "react", "design-system", "components", "animation", "spring-physics", "haptics", "bento", "ui", "css"],
             "peerDependencies": {
               "react": ">=18",
-              "react-dom": ">=18"
+              "react-dom": ">=18",
+              "motion": ">=11"
+            },
+            "engines": {
+              "node": ">=18"
             },
             "repository": {
               "type": "git",
