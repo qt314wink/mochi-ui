@@ -1,50 +1,74 @@
-// Mochi UI - Claymorphism Component Library
-// Export all components for easy imports
-// Built with Astro + Motion v12 + Spring Physics
+// ── Clay Primitives ──────────────────────────────────────────────────────────
+export { ClayButton }           from './clay/ClayButton';
+export type { ClayButtonProps } from './clay/ClayButton';
 
-// Clay Primitives
-export { ClayButton, type ClayButtonProps } from './clay/ClayButton';
-export { ClayCard, type ClayCardProps } from './clay/ClayCard';
-export { ClayToggle, type ClayToggleProps } from './clay/ClayToggle';
-export { ClaySlider, type ClaySliderProps } from './clay/ClaySlider';
-export { ClayInput, type ClayInputProps } from './clay/ClayInput';
-export { ClayChartBar, type ClayChartBarProps } from './clay/ClayChartBar';
-export { ClayBadge, type ClayBadgeProps } from './clay/ClayBadge';
-export { ClayAvatar, type ClayAvatarProps } from './clay/ClayAvatar';
-export { ClayTooltip, type ClayTooltipProps } from './clay/ClayTooltip';
-export { ClayModal, type ClayModalProps } from './clay/ClayModal';
-export { ClaySkeleton, type ClaySkeletonProps } from './clay/ClaySkeleton';
-export { ClayProgress, type ClayProgressProps } from './clay/ClayProgress';
-export { ClaySegmentedControl, type ClaySegmentedControlProps } from './clay/ClaySegmentedControl';
+export { ClayCard }             from './clay/ClayCard';
+export type { ClayCardProps }   from './clay/ClayCard';
 
-// Animation Systems
-export { 
-  PhysicsProvider, 
-  usePhysics, 
-  toSpringConfig,
-  physicsPresets,
-  triggerHaptic,
-  useClayState,
-  type PhysicsConfig,
-  type PhysicsPreset,
-  type ClayState,
-} from './animations/SpringPhysics';
+export { ClayModal }            from './clay/ClayModal';
+export type { ClayModalProps }  from './clay/ClayModal';
 
-export { ClayRebound, type ClayReboundProps } from './animations/ClayRebound';
-export { 
-  FloatingContainer, 
-  FloatingGroup,
-  ParallaxLayer,
-  type FloatingContainerProps,
-  type FloatingGroupProps,
-  type ParallaxLayerProps,
-} from './animations/FloatingContainer';
+export { ClaySkeleton }             from './clay/ClaySkeleton';
+export type { ClaySkeletonProps }   from './clay/ClaySkeleton';
 
-// Layout
-export { 
-  BentoGrid, 
-  BentoItem,
-  BentoLayouts,
-  type BentoGridProps,
-  type BentoItemProps,
-} from './layout/BentoGrid';
+export { ClayTooltip }              from './clay/ClayTooltip';
+export type { ClayTooltipProps }    from './clay/ClayTooltip';
+
+export { ClaySlider }               from './clay/ClaySlider';
+export type { ClaySliderProps }     from './clay/ClaySlider';
+
+export { ClayToggle }               from './clay/ClayToggle';
+export type { ClayToggleProps }     from './clay/ClayToggle';
+
+export { ClayInput }                from './clay/ClayInput';
+export type { ClayInputProps }      from './clay/ClayInput';
+
+export { ClayBadge }                from './clay/ClayBadge';
+export type { ClayBadgeProps }      from './clay/ClayBadge';
+
+export { ClayAvatar }               from './clay/ClayAvatar';
+export type { ClayAvatarProps }     from './clay/ClayAvatar';
+
+export { ClayProgress }             from './clay/ClayProgress';
+export type { ClayProgressProps }   from './clay/ClayProgress';
+
+export { ClaySegmentedControl }             from './clay/ClaySegmentedControl';
+export type { ClaySegmentedControlProps }   from './clay/ClaySegmentedControl';
+
+export { ClayChartBar }             from './clay/ClayChartBar';
+export type { ClayChartBarProps }   from './clay/ClayChartBar';
+
+export { ClayToast, useToast }      from './clay/ClayToast';
+export type { ToastItem, ToastVariant, ClayToastProps } from './clay/ClayToast';
+
+export { ClayCommandPalette }       from './clay/ClayCommandPalette';
+export type { CommandItem, ClayCommandPaletteProps } from './clay/ClayCommandPalette';
+
+export { ClayDataTable }            from './clay/ClayDataTable';
+export type { TableColumn, ClayDataTableProps } from './clay/ClayDataTable';
+
+// ClayRebound — spring-squish wrapper
+export { ClayRebound }              from './clay/ClayRebound';
+export type { ClayReboundProps }    from './clay/ClayRebound';
+
+// ── Layout ───────────────────────────────────────────────────────────────────
+export { BentoGrid }                from './layout/BentoGrid';
+export { FloatingContainer }        from './layout/FloatingContainer';
+export type { FloatingContainerProps } from './layout/FloatingContainer';
+export { FloatingGroup }            from './layout/FloatingGroup';
+export type { FloatingGroupProps }  from './layout/FloatingGroup';
+
+// ── Physics ──────────────────────────────────────────────────────────────────
+export { PhysicsProvider, usePhysics, physicsPresets } from './physics/PhysicsProvider';
+export type { PhysicsProviderProps, PhysicsPreset, PhysicsConfig } from './physics/PhysicsProvider';
+
+// ── Motion ───────────────────────────────────────────────────────────────────
+export { CursorOrb }                from './motion/CursorOrb';
+export { SectionReveal }            from './motion/SectionReveal';
+export { StaggerGrid }              from './motion/StaggerGrid';
+export { MochiBounce }              from './motion/MochiBounce';
+
+// ── Theme System ─────────────────────────────────────────────────────────────
+export { MochiThemeProvider, useMochiTheme, createMochiTheme } from './theme/MochiThemeProvider';
+export type { MochiTheme, ColorMode, MochiTokenOverrides } from './theme/MochiThemeProvider';
+export { DarkModeToggle }           from './theme/DarkModeToggle';
