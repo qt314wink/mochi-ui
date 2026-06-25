@@ -1,176 +1,77 @@
-import React, { useState, useCallback } from 'react';
-import { motion, useSpring, useTransform, useMotionValue } from 'motion/react';
-import type { SpringOptions } from 'motion/react';
+import React, { useContext } from 'react';
+import { motion } from 'motion/react';
+import PhysicsContext, { toSpringConfig } from '../animations/SpringPhysics';
 
 export interface ClayButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   colorway?: 'mint' | 'blue' | 'pink' | 'lavender' | 'peach' | 'neutral';
   size?: 'sm' | 'md' | 'lg';
-  bounce?: number;        // 0-1, how elastic
-  duration?: number;      // ms, perceptual duration
-  haptic?: 'soft' | 'medium' | 'firm';
+  variant?: 'solid' | 'outline' | 'ghost';
+  disabled?: boolean;
+  loading?: boolean;
   icon?: React.ReactNode;
   iconPosition?: 'leading' | 'trailing';
-  disabled?: boolean;
   onClick?: () => void;
+  style?: React.CSSProperties;
   className?: string;
+  type?: 'button' | 'submit' | 'reset';
+  'aria-label'?: string;
 }
 
-// Colorway configurations
-const colorways = {
-  mint: { bg: 'hsl(142deg 76% 78%)', color: 'hsl(142deg 70% 18%)' },
-  blue: { bg: 'hsl(200deg 90% 88%)', color: 'hsl(200deg 70% 22%)' },
-  pink: { bg: 'hsl(350deg 90% 88%)', color: 'hsl(350deg 70% 24%)' },
-  lavender: { bg: 'hsl(270deg 70% 88%)', color: 'hsl(270deg 60% 24%)' },
-  peach: { bg: 'hsl(25deg 95% 78%)', color: 'hsl(25deg 75% 22%)' },
-  neutral: { bg: 'hsl(30deg 15% 90%)', color: 'hsl(30deg 15% 28%)' },
+const colorwayMap: Record<string, string> = {
+  mint:     'var(--mochi-mint)',
+  blue:     'var(--mochi-sky-blue)',
+  pink:     'var(--mochi-blossom)',
+  lavender: 'var(--mochi-lavender)',
+  peach:    'var(--mochi-peach)',
+  neutral:  'var(--bg-card)',
 };
 
-// Size configurations
-const sizes = {
-  sm: { padding: '8px 16px', fontSize: '14px' },
-  md: { padding: '16px 32px', fontSize: '16px' },
-  lg: { padding: '24px 48px', fontSize: '18px' },
+const sizeMap: Record<string, React.CSSProperties> = {
+  sm: { padding: '8px 16px',  fontSize: 13, borderRadius: 12 },
+  md: { padding: '12px 24px', fontSize: 15, borderRadius: 16 },
+  lg: { padding: '16px 32px', fontSize: 17, borderRadius: 20 },
 };
 
 export const ClayButton: React.FC<ClayButtonProps> = ({
-  children,
-  colorway = 'mint',
-  size = 'md',
-  bounce = 0.4,
-  duration = 300,
-  haptic = 'soft',
-  icon,
-  iconPosition = 'leading',
-  disabled = false,
-  onClick,
-  className = '',
+  children, colorway = 'mint', size = 'md', variant = 'solid',
+  disabled, loading, icon, iconPosition = 'leading',
+  onClick, style, className, type = 'button', 'aria-label': ariaLabel,
 }) => {
-  const [isPressed, setIsPressed] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Spring physics configuration
-  const springConfig: SpringOptions = {
-    stiffness: 300 - (bounce * 200),  // Higher bounce = lower stiffness = more elastic
-    damping: 1000 / duration,          // Duration mapping
-    mass: 1,
-  };
-
-  // Motion values for physics-driven animation
-  const y = useSpring(0, springConfig);
-  const scale = useSpring(1, springConfig);
-  const shadowY = useSpring(8, springConfig);
-  const shadowBlur = useSpring(16, springConfig);
-
-  // Shadow transform based on motion values
-  const boxShadow = useTransform(
-    [shadowY, shadowBlur],
-    ([latestY, latestBlur]) => {
-      const y = latestY as number;
-      const blur = latestBlur as number;
-      return `
-        ${y}px ${y}px ${blur}px rgba(0,0,0,0.1),
-        inset -4px -4px 8px rgba(0,0,0,0.05),
-        inset 4px 4px 8px rgba(255,255,255,0.8)
-      `;
-    }
-  );
-
-  // Haptic feedback trigger
-  const triggerHaptic = useCallback(() => {
-    if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-      const patterns = {
-        soft: [10],
-        medium: [15, 5, 10],
-        firm: [20, 5, 15, 5, 10],
-      };
-      navigator.vibrate(patterns[haptic]);
-    }
-  }, [haptic]);
-
-  // Interaction handlers
-  const handlePointerDown = () => {
-    if (disabled) return;
-    setIsPressed(true);
-
-    // Compression phase
-    y.set(2);
-    scale.set(0.95);
-    shadowY.set(2);
-    shadowBlur.set(4);
-
-    triggerHaptic();
-  };
-
-  const handlePointerUp = () => {
-    if (disabled) return;
-    setIsPressed(false);
-
-    // Release with overshoot (clay rebound)
-    y.set(-6);
-    scale.set(1.02);
-    shadowY.set(12);
-    shadowBlur.set(24);
-
-    // Settle back
-    setTimeout(() => {
-      y.set(0);
-      scale.set(1);
-      shadowY.set(8);
-      shadowBlur.set(16);
-    }, duration * 0.6);
-  };
-
-  const handlePointerEnter = () => {
-    if (!disabled) {
-      setIsHovered(true);
-      y.set(-4);
-      shadowY.set(12);
-      shadowBlur.set(20);
-    }
-  };
-
-  const handlePointerLeave = () => {
-    setIsHovered(false);
-    setIsPressed(false);
-    y.set(0);
-    scale.set(1);
-    shadowY.set(8);
-    shadowBlur.set(16);
-  };
-
-  const colors = colorways[colorway];
-  const sizeStyles = sizes[size];
+  const physics  = useContext(PhysicsContext);
+  const spring   = toSpringConfig(physics);
+  const isNeutral = colorway === 'neutral';
+  const bg        = variant === 'solid' ? colorwayMap[colorway] : 'transparent';
+  const color     = variant === 'solid' && !isNeutral ? 'white' : 'var(--text-primary)';
+  const border    = variant === 'outline' ? `2px solid ${colorwayMap[colorway]}` : 'none';
 
   return (
     <motion.button
-      className={`clay-button clay-button--${colorway} clay-button--${size} ${className}`}
+      type={type}
+      aria-label={ariaLabel}
+      aria-busy={loading}
+      disabled={disabled || loading}
+      onClick={onClick}
+      className={className}
+      whileHover={disabled ? {} : { scale: 1.04, y: -2 }}
+      whileTap={disabled ? {} : { scale: 0.93, y: 2 }}
+      transition={{ type: 'spring', stiffness: spring.stiffness, damping: spring.damping, mass: spring.mass }}
       style={{
-        background: colors.bg,
-        color: colors.color,
-        padding: sizeStyles.padding,
-        fontSize: sizeStyles.fontSize,
-        y,
-        scale,
-        boxShadow,
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        gap: 8, cursor: disabled ? 'not-allowed' : 'pointer',
+        fontWeight: 700, border, background: bg, color,
+        boxShadow: variant === 'solid'
+          ? '0 6px 20px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6)'
+          : 'none',
         opacity: disabled ? 0.5 : 1,
-        cursor: disabled ? 'not-allowed' : 'pointer',
+        userSelect: 'none',
+        ...sizeMap[size],
+        ...style,
       }}
-      onPointerDown={handlePointerDown}
-      onPointerUp={handlePointerUp}
-      onPointerEnter={handlePointerEnter}
-      onPointerLeave={handlePointerLeave}
-      onClick={disabled ? undefined : onClick}
-      data-state={isPressed ? 'active' : isHovered ? 'hover' : 'default'}
-      whileTap={{ scale: 0.95 }}
     >
-      {icon && iconPosition === 'leading' && (
-        <span className="clay-button__icon">{icon}</span>
-      )}
-      <span className="clay-button__text">{children}</span>
-      {icon && iconPosition === 'trailing' && (
-        <span className="clay-button__icon">{icon}</span>
-      )}
+      {icon && iconPosition === 'leading' && icon}
+      {loading ? <span style={{ width: 16, height: 16, border: '2px solid currentColor', borderTopColor: 'transparent', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /> : children}
+      {icon && iconPosition === 'trailing' && icon}
     </motion.button>
   );
 };

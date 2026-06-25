@@ -16,6 +16,8 @@ export { ClayModal, type ClayModalProps } from './clay/ClayModal';
 export { ClaySkeleton, type ClaySkeletonProps } from './clay/ClaySkeleton';
 export { ClayProgress, type ClayProgressProps } from './clay/ClayProgress';
 export { ClaySegmentedControl, type ClaySegmentedControlProps } from './clay/ClaySegmentedControl';
+export { ClaySelect, type ClaySelectProps, type ClaySelectOption } from './clay/ClaySelect';
+export { ClayDrawer, type ClayDrawerProps } from './clay/ClayDrawer';
 
 // Animation Systems
 export {
@@ -69,4 +71,4 @@ export { ClayPlayground } from './playground/ClayPlayground';
 export { SpringGraph } from './playground/SpringGraph';
 
 // P1 — 3D Hero
-export { ClayHero3D } from './hero/ClayHero3D';
+export { ClayHero3D, type ClayHero3DProps } from './hero/ClayHero3D';

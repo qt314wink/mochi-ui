@@ -42,11 +42,12 @@ export const SplitText: React.FC<SplitTextProps> = ({
 }) => {
   const words = text.split(' ');
   return (
-    <Tag className={className} style={{ ...style, display: 'block' }}>
+    // aria-label on outer element = screen reader reads full text as one string.
+    // aria-hidden on each word span = prevents word-by-word stuttering in AT.
+    <Tag className={className} style={{ ...style, display: 'block' }} aria-label={text}>
       {words.map((word, wi) => (
-        <span key={wi} style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.25em' }}>
+        <span key={wi} aria-hidden="true" style={{ display: 'inline-block', overflow: 'hidden', marginRight: '0.25em' }}>
           <motion.span
-            display="inline-block"
             initial={{ y: '110%', opacity: 0 }}
             whileInView={{ y: '0%', opacity: 1 }}
             viewport={{ once: true, margin: '-40px' }}
@@ -73,7 +74,7 @@ export const ParallaxLayer: React.FC<ParallaxLayerProps> = ({ children, speed = 
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const rawY = useTransform(scrollYProgress, [0, 1], [`${-speed * 60}px`, `${speed * 60}px`]);
-  const y = useSpring(rawY, { stiffness: 80, damping: 20 });
+  const y    = useSpring(rawY, { stiffness: 80, damping: 20 });
   return (
     <motion.div ref={ref} className={className} style={{ ...style, y }}>
       {children}
@@ -116,7 +117,7 @@ export interface TextRevealBlockProps {
 export const TextRevealBlock: React.FC<TextRevealBlockProps> = ({
   children, color = 'var(--mochi-mint)', duration = 0.7, className, style,
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref    = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   return (
     <div ref={ref} className={className} style={{ position: 'relative', overflow: 'hidden', ...style }}>

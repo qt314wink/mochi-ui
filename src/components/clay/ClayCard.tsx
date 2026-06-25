@@ -1,144 +1,65 @@
-import React, { useState } from 'react';
-import { motion, useSpring, useTransform } from 'motion/react';
+import React, { useContext } from 'react';
+import { motion } from 'motion/react';
+import PhysicsContext, { toSpringConfig } from '../animations/SpringPhysics';
 
 export interface ClayCardProps {
-  children: React.ReactNode;
-  variant?: 'default' | 'bento' | 'stats' | 'notification';
-  colorway?: 'mint' | 'blue' | 'pink' | 'lavender' | 'peach' | 'neutral' | 'ivory';
-  elevation?: 'low' | 'medium' | 'high';
+  children?: React.ReactNode;
+  colorway?: 'mint' | 'blue' | 'pink' | 'lavender' | 'peach' | 'neutral';
+  variant?: 'default' | 'elevated' | 'inset' | 'stats';
   interactive?: boolean;
   onClick?: () => void;
-  className?: string;
-  header?: React.ReactNode;
-  footer?: React.ReactNode;
   style?: React.CSSProperties;
+  className?: string;
 }
 
-const colorwayBg = {
-  mint: 'hsl(142deg 76% 90%)',
-  blue: 'hsl(200deg 90% 92%)',
-  pink: 'hsl(350deg 90% 92%)',
-  lavender: 'hsl(270deg 70% 92%)',
-  peach: 'hsl(25deg 95% 90%)',
-  neutral: 'hsl(30deg 20% 95%)',
-  ivory: '#FEF3C7',
+const tintMap: Record<string, string> = {
+  mint:     'rgba(94,231,176,0.08)',
+  blue:     'rgba(124,185,245,0.08)',
+  pink:     'rgba(255,182,193,0.08)',
+  lavender: 'rgba(201,167,245,0.08)',
+  peach:    'rgba(255,209,170,0.08)',
+  neutral:  'transparent',
 };
 
 export const ClayCard: React.FC<ClayCardProps> = ({
-  children,
-  variant = 'default',
-  colorway = 'neutral',
-  elevation = 'medium',
-  interactive = true,
-  onClick,
-  className = '',
-  header,
-  footer,
-  style,
+  children, colorway = 'neutral', variant = 'default',
+  interactive = true, onClick, style, className,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
+  const physics = useContext(PhysicsContext);
+  const spring  = toSpringConfig(physics);
 
-  // Spring physics for card
-  const springConfig = { stiffness: 200, damping: 20, mass: 1 };
-
-  const y = useSpring(0, springConfig);
-  const rotateX = useSpring(0, springConfig);
-  const rotateY = useSpring(0, springConfig);
-  const shadowY = useSpring(8, springConfig);
-  const shadowBlur = useSpring(16, springConfig);
-
-  // 3D tilt effect on mouse move
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!interactive) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
-
-    // Subtle 3D rotation based on mouse position
-    rotateX.set(mouseY / 20);
-    rotateY.set(-mouseX / 20);
+  const baseStyle: React.CSSProperties = {
+    background: `var(--bg-card, #fffaf5)`,
+    borderRadius: 24,
+    padding: 24,
+    boxShadow: variant === 'inset'
+      ? 'inset 4px 4px 10px rgba(0,0,0,0.06), inset -4px -4px 10px rgba(255,255,255,0.8)'
+      : variant === 'elevated'
+      ? '0 16px 48px rgba(0,0,0,0.14), 0 4px 12px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.7)'
+      : '0 8px 32px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.7)',
+    backgroundImage: tintMap[colorway]
+      ? `linear-gradient(135deg, ${tintMap[colorway]} 0%, transparent 100%)`
+      : undefined,
+    cursor: interactive ? 'pointer' : 'default',
+    position: 'relative',
+    overflow: 'hidden',
+    ...style,
   };
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-    y.set(-8);
-    shadowY.set(20);
-    shadowBlur.set(40);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-    y.set(0);
-    rotateX.set(0);
-    rotateY.set(0);
-    shadowY.set(8);
-    shadowBlur.set(16);
-  };
-
-  const boxShadow = useTransform(
-    [shadowY, shadowBlur],
-    ([latestY, latestBlur]) => {
-      const sy = latestY as number;
-      const sb = latestBlur as number;
-      return `
-        0 ${sy}px ${sb}px rgba(0,0,0,0.1),
-        inset -10px -10px 20px rgba(0,0,0,0.05),
-        inset 10px 10px 20px rgba(255,255,255,0.8)
-      `;
-    }
-  );
-
-  const bg = colorwayBg[colorway];
+  if (!interactive) {
+    return <div className={className} style={baseStyle}>{children}</div>;
+  }
 
   return (
     <motion.div
-      className={`clay-card clay-card--${variant} ${className}`}
-      style={{
-        background: bg,
-        y,
-        rotateX,
-        rotateY,
-        boxShadow,
-        transformPerspective: 1000,
-        cursor: interactive ? 'pointer' : 'default',
-        ...style,
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className={className}
+      style={baseStyle}
       onClick={onClick}
-      whileTap={interactive ? { scale: 0.98, y: 2 } : undefined}
+      whileHover={{ scale: 1.02, y: -4 }}
+      whileTap={{ scale: 0.98, y: 0 }}
+      transition={{ type: 'spring', stiffness: spring.stiffness, damping: spring.damping, mass: spring.mass }}
     >
-      {header && (
-        <div className="clay-card__header">{header}</div>
-      )}
-
-      <div className="clay-card__content">
-        {children}
-      </div>
-
-      {footer && (
-        <div className="clay-card__footer">{footer}</div>
-      )}
-
-      {/* Subtle shine effect on hover */}
-      {isHovered && (
-        <motion.div
-          className="clay-card__shine"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.1 }}
-          exit={{ opacity: 0 }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: 'inherit',
-            background: 'linear-gradient(135deg, transparent 40%, white 50%, transparent 60%)',
-            pointerEvents: 'none',
-          }}
-        />
-      )}
+      {children}
     </motion.div>
   );
 };
