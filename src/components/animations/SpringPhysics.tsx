@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
+import { useSpring, useTransform, type MotionValue } from 'motion/react';
 import type { SpringOptions } from 'motion/react';
 
 // Spring Physics Configuration System
@@ -102,6 +103,28 @@ export const useClayState = (initial: ClayState = 'default') => {
     previousState,
     transition,
     is: (s: ClayState) => state === s,
+  };
+};
+
+// useSpringTransform — applies physics-aware spring to a MotionValue or numeric target.
+// Returns a style object with the spring-driven scale transform ready to spread.
+export const useSpringTransform = (
+  target: { scale?: number; x?: number; y?: number },
+  overrideConfig?: Partial<SpringOptions>
+): { style: { scale?: MotionValue<number>; x?: MotionValue<number>; y?: MotionValue<number> } } => {
+  const physics = useContext(PhysicsContext);
+  const springCfg: SpringOptions = { ...toSpringConfig(physics), ...overrideConfig };
+
+  const scale = useSpring(target.scale ?? 1, springCfg);
+  const x     = useSpring(target.x     ?? 0, springCfg);
+  const y     = useSpring(target.y     ?? 0, springCfg);
+
+  return {
+    style: {
+      ...(target.scale !== undefined && { scale }),
+      ...(target.x     !== undefined && { x }),
+      ...(target.y     !== undefined && { y }),
+    },
   };
 };
 

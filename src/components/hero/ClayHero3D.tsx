@@ -1,10 +1,11 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { motion } from 'motion/react';
-import { useSpringTransform } from '../animations/SpringPhysics';
 
-const SplineScene = lazy(() => import('@splinetool/react-spline').catch(() => ({ default: () => null })));
+const SplineScene = lazy(() =>
+  import('@splinetool/react-spline').catch(() => ({ default: () => null as any }))
+);
 
-interface ClayHero3DProps {
+export interface ClayHero3DProps {
   splineUrl?: string;
   headline?: React.ReactNode;
   subheadline?: React.ReactNode;
@@ -12,29 +13,28 @@ interface ClayHero3DProps {
   minHeight?: number | string;
 }
 
-const ClayBlob: React.FC = () => {
-  const { style } = useSpringTransform({ scale: 1 });
-  return (
-    <motion.div
-      style={{
-        width: 260,
-        height: 260,
-        borderRadius: '62% 38% 46% 54% / 60% 44% 56% 40%',
-        background: 'linear-gradient(135deg, var(--mochi-mint) 0%, var(--mochi-baby-blue) 60%, var(--mochi-blossom) 100%)',
-        boxShadow: '0 24px 64px rgba(94,231,176,0.28), inset 0 2px 0 rgba(255,255,255,0.55)',
-        ...style,
-      }}
-      animate={{ borderRadius: [
+const ClayBlob: React.FC = () => (
+  <motion.div
+    style={{
+      width: 260,
+      height: 260,
+      borderRadius: '62% 38% 46% 54% / 60% 44% 56% 40%',
+      background: 'linear-gradient(135deg, var(--mochi-mint) 0%, var(--mochi-baby-blue) 60%, var(--mochi-blossom) 100%)',
+      boxShadow: '0 24px 64px rgba(94,231,176,0.28), inset 0 2px 0 rgba(255,255,255,0.55)',
+      cursor: 'pointer',
+    }}
+    animate={{
+      borderRadius: [
         '62% 38% 46% 54% / 60% 44% 56% 40%',
         '45% 55% 60% 40% / 50% 60% 40% 50%',
         '62% 38% 46% 54% / 60% 44% 56% 40%',
-      ]}}
-      transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-      whileHover={{ scale: 1.06 }}
-      whileTap={{ scale: 0.93 }}
-    />
-  );
-};
+      ],
+    }}
+    transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+    whileHover={{ scale: 1.06, transition: { type: 'spring', stiffness: 220, damping: 14 } }}
+    whileTap={{ scale: 0.93, transition: { type: 'spring', stiffness: 400, damping: 18 } }}
+  />
+);
 
 export const ClayHero3D: React.FC<ClayHero3DProps> = ({
   splineUrl,
@@ -46,14 +46,16 @@ export const ClayHero3D: React.FC<ClayHero3DProps> = ({
   const [splineError, setSplineError] = useState(false);
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-      gap: 40,
-      alignItems: 'center',
-      minHeight,
-      padding: '64px 0 48px',
-    }}>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: 40,
+        alignItems: 'center',
+        minHeight,
+        padding: '64px 0 48px',
+      }}
+    >
       <motion.div
         initial={{ opacity: 0, x: -32 }}
         animate={{ opacity: 1, x: 0 }}
@@ -72,7 +74,11 @@ export const ClayHero3D: React.FC<ClayHero3DProps> = ({
       >
         {splineUrl && !splineError ? (
           <Suspense fallback={<ClayBlob />}>
-            <SplineScene scene={splineUrl} onError={() => setSplineError(true)} style={{ width: '100%', maxWidth: 480, height: 360 }} />
+            <SplineScene
+              scene={splineUrl}
+              onError={() => setSplineError(true)}
+              style={{ width: '100%', maxWidth: 480, height: 360 }}
+            />
           </Suspense>
         ) : (
           <ClayBlob />
