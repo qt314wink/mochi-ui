@@ -32,6 +32,14 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0"
   },
+  "peerDependencies": {
+    "@splinetool/react-spline": ">=2.2.6"
+  },
+  "peerDependenciesMeta": {
+    "@splinetool/react-spline": {
+      "optional": true
+    }
+  },
   "engines": {
     "node": ">=20.0.0"
   }

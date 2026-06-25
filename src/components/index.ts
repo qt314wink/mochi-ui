@@ -18,6 +18,12 @@ export { ClayProgress, type ClayProgressProps } from './clay/ClayProgress';
 export { ClaySegmentedControl, type ClaySegmentedControlProps } from './clay/ClaySegmentedControl';
 export { ClaySelect, type ClaySelectProps, type ClaySelectOption } from './clay/ClaySelect';
 export { ClayDrawer, type ClayDrawerProps } from './clay/ClayDrawer';
+export {
+  ClayNotificationProvider,
+  useNotification,
+  type NotificationItem,
+  type NotificationType,
+} from './clay/ClayNotification';
 
 // Animation Systems
 export {

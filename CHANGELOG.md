@@ -1,40 +1,45 @@
 # Changelog
 
-All notable changes to `@mochiui/react` will be documented here.
+All notable changes to Mochi UI are documented here.
 
-The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](https://semver.org/).
+## [2.0.1] — 2026-06-25
 
----
-
-## [0.1.0] — 2026-06-24
+### Fixed
+- `sass-embedded` added to `devDependencies` — resolves Vite CSS preprocessor build failure
+- CI workflow now uses `npm install` instead of `npm ci` to pick up new devDependencies without requiring lockfile regeneration
+- `PhysicsProvider` now uses `useMemo` instead of `useState` so config prop changes propagate reactively to all consumers
+- `SplitText` accessibility: outer element carries `aria-label` with full text; word spans are `aria-hidden` to prevent AT stuttering
+- `ClayHero3D` removed non-existent `useSpringTransform` import; blob uses `whileHover`/`whileTap` directly
 
 ### Added
+- `ClaySelect` — custom dropdown with keyboard navigation (Arrow/Enter/Escape), ARIA combobox/listbox/option roles, spring-driven list entrance, focus ring keyed to active colorway
+- `ClayDrawer` — slides from left/right/bottom with spring physics, body scroll lock, Escape key, drag handle for bottom variant
+- `ClayNotificationProvider` + `useNotification` — ephemeral toast system with success/error/warning/info types, action buttons, auto-dismiss, spring entrance/exit
+- `ClayPlayground` copy button now shows `✓ Copied!` confirmation for 1.5 s with scale bounce
+- `ScrollProgressBar`, `ScrollReveal`, `SplitText`, `ParallaxLayer`, `TextRevealBlock` scroll typography primitives
+- `ClayHero3D` two-column hero with lazy Spline loader and animated clay blob fallback
+- `SpringGraph` canvas-based spring curve visualiser (underdamped / critical / overdamped)
+- `useSpringTransform` hook added to `SpringPhysics.tsx`
+- `og:image` and `twitter:image` meta tags added to `Layout.astro` with configurable `ogImage` prop
+- CI workflow (`.github/workflows/ci.yml`) — TypeScript type-check + Astro build on every push to main
+- `@splinetool/react-spline` declared as optional peer dependency
+- `typecheck` npm script (`tsc --noEmit`)
 
-**Clay Primitives**
-- `ClayButton` — Triple-shadow, 6 colorways, 3 sizes, compression physics
-- `ClayCard` — 4-layer shadow, 3D tilt on hover, shine effect
-- `ClayToggle` — Spring knob, track recess, haptic tick
-- `ClaySlider` — Tactile knob, granular feedback, fill animation
-- `ClayInput` — Inset recess, glow focus, validation states
-- `ClayChartBar` — 3D cylinder, volumetric shadow, tooltip
-- `ClayBadge` — Pulse animation, micro-float
-- `ClayAvatar` — Status indicator, rotation on hover
-- `ClayTooltip` — Spring entrance, arrow pointer
-- `ClayModal` — Backdrop blur, spring open/close
-- `ClaySkeleton` — Shimmer animation
-- `ClayProgress` — Spring fill, milestone pops
-- `ClaySegmentedControl` — Sliding indicator, haptic selection
+### Changed
+- `ClayButton`, `ClayCard`, `ClaySlider` now read spring config from `PhysicsProvider` via `useContext(PhysicsContext)` — preset selector in header changes component feel site-wide
+- README updated: correct component count (15), new primitives documented, architecture diagram updated, CI badge added
+- `package.json` version bumped to `2.0.1`
 
-**Animation Systems**
-- `PhysicsProvider` + `usePhysics` — Global spring physics configuration
-- `physicsPresets` — 6 presets: `jelly`, `clay`, `firm`, `snappy`, `luxurious`, `bouncy`
-- `ClayRebound` — 3-phase animation wrapper
-- `FloatingContainer` / `FloatingGroup` — Ambient breathing animations
-- `ParallaxLayer` — Mouse-driven depth parallax
-- `triggerHaptic` — Programmatic haptic feedback
+## [2.0.0] — 2026-06-07
 
-**Layout**
-- `BentoGrid` / `BentoItem` / `BentoLayouts` — Responsive bento-style grid system
-
-**Design Tokens**
-- W3C-format tokens with Figma Variables, Tokens Studio, and CSS custom properties export
+### Added
+- 13 clay primitive components with spring physics
+- 3D WebGL shader scene (ClayScene)
+- Spatial audio engine (AudioEngine)
+- Smooth scroll via GSAP ScrollTrigger + Lenis
+- Dynamic gradient mesh background (AtmosphereCanvas)
+- Bento grid layouts with floating animations
+- Physics presets: jelly, clay, firm, snappy, luxurious, bouncy
+- Theme switching (light/dark) with localStorage persistence
+- `prefers-reduced-motion` support across all animated components
+- Figma-compatible W3C design tokens

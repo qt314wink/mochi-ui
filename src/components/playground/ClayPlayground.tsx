@@ -22,11 +22,11 @@ const PRESET_SPRING: Record<string, { mass: number; tension: number; friction: n
 };
 
 export const ClayPlayground: React.FC = () => {
-  const [radius, setRadius]     = useState(20);
-  const [shadow, setShadow]     = useState(60);
-  const [colorway, setColorway] = useState<ColorwayKey>('mint');
-  const [preset, setPreset]     = useState<PhysicsPreset>('clay');
-  const [pressed, setPressed]   = useState(false);
+  const [radius, setRadius]         = useState(20);
+  const [shadow, setShadow]         = useState(60);
+  const [colorway, setColorway]     = useState<ColorwayKey>('mint');
+  const [preset, setPreset]         = useState<PhysicsPreset>('clay');
+  const [copied, setCopied]         = useState(false);
 
   const spring = PRESET_SPRING[preset] ?? PRESET_SPRING.clay;
 
@@ -34,14 +34,10 @@ export const ClayPlayground: React.FC = () => {
   const springY     = useSpring(0, { stiffness: spring.tension, damping: spring.friction, mass: spring.mass });
 
   const handlePress = useCallback(() => {
-    setPressed(true);
     springScale.set(0.88);
     springY.set(4);
-    setTimeout(() => { springScale.set(1); springY.set(0); setPressed(false); }, 180);
+    setTimeout(() => { springScale.set(1); springY.set(0); }, 180);
   }, [springScale, springY]);
-
-  const shadowSize  = useTransform(springScale, [0.88, 1], [shadow * 0.4, shadow * 0.12]);
-  const shadowOpacity = useTransform(springScale, [0.88, 1], [0.18, 0.28]);
 
   const shadowStyle = `0 ${shadow * 0.06}px ${shadow * 0.18}px rgba(0,0,0,0.13), 0 ${shadow * 0.02}px ${shadow * 0.06}px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.7)`;
 
@@ -53,6 +49,13 @@ export const ClayPlayground: React.FC = () => {
     stiffness: ${spring.tension},
     damping: ${spring.friction} }}
 />`;
+
+  const handleCopy = useCallback(() => {
+    navigator.clipboard.writeText(code).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    });
+  }, [code]);
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 32 }}>
@@ -73,8 +76,10 @@ export const ClayPlayground: React.FC = () => {
               onClick={() => setColorway(cw)}
               whileTap={{ scale: 0.9 }}
               style={{
-                padding: '6px 14px', borderRadius: 10, border: colorway === cw ? '2px solid var(--mochi-mint)' : '2px solid transparent',
-                background: 'var(--bg-surface)', cursor: 'pointer', fontSize: 13, fontWeight: 600, color: 'var(--text-primary)',
+                padding: '6px 14px', borderRadius: 10,
+                border: colorway === cw ? '2px solid var(--mochi-mint)' : '2px solid transparent',
+                background: 'var(--bg-surface)', cursor: 'pointer',
+                fontSize: 13, fontWeight: 600, color: 'var(--text-primary)',
               }}
             >{cw}</motion.button>
           ))}
@@ -119,7 +124,14 @@ export const ClayPlayground: React.FC = () => {
       <ClayCard colorway="neutral" interactive={false}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
           <h3 style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>Code</h3>
-          <ClayBadge colorway="mint">Copy</ClayBadge>
+          <motion.div
+            animate={{ scale: copied ? [1, 1.15, 1] : 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <ClayBadge colorway={copied ? 'mint' : 'neutral'}>
+              {copied ? '✓ Copied!' : 'Copy'}
+            </ClayBadge>
+          </motion.div>
         </div>
         <pre style={{
           background: 'var(--bg-surface)', borderRadius: 12, padding: 16,
@@ -127,11 +139,13 @@ export const ClayPlayground: React.FC = () => {
           fontFamily: 'ui-monospace, monospace', whiteSpace: 'pre-wrap',
         }}>{code}</pre>
         <ClayButton
-          colorway="mint"
+          colorway={copied ? 'mint' : 'neutral'}
           size="sm"
           style={{ marginTop: 12 }}
-          onClick={() => navigator.clipboard.writeText(code)}
-        >Copy snippet</ClayButton>
+          onClick={handleCopy}
+        >
+          {copied ? '✓ Copied to clipboard' : 'Copy snippet'}
+        </ClayButton>
       </ClayCard>
     </div>
   );
